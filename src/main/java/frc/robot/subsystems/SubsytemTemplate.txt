@@ -1,0 +1,15 @@
+package frc.robot.subsystems;
+
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+public class IntakeExtension extends SubsystemBase {
+
+    public IntakeExtension() {
+        // Initialize motors, solenoids, sensors here
+    }
+
+    @Override
+    public void periodic() {
+        // Called once per scheduler run (20ms)
+    }
+}
