@@ -24,14 +24,14 @@ public class TunerConstants {
     // The steer motor uses any SwerveModule.SteerRequestType control request with the
     // output type specified by SwerveModuleConstants.SteerMotorClosedLoopOutput
     private static final Slot0Configs steerGains = new Slot0Configs()
-        .withKP(50).withKI(0).withKD(0.0) // OLD: KP:100 KI:0 KD:0.5
-        .withKS(0.1).withKV(0).withKA(0) // OLD: KS:0.1 KV:2.66 KA:0
+        .withKP(50).withKI(0).withKD(0.0)
+        .withKS(0.1).withKV(0).withKA(0)
         .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
     // When using closed-loop control, the drive motor uses the control
     // output type specified by SwerveModuleConstants.DriveMotorClosedLoopOutput
     private static final Slot0Configs driveGains = new Slot0Configs()
-        .withKP(0.1).withKI(0).withKD(0) // OLD: KP:0.1 KI:0 KD:0
-        .withKS(0).withKV(0.124); // OLD: KS:0 KV:0.124
+        .withKP(0.1).withKI(0).withKD(0)
+        .withKS(0).withKV(0.124);
 
     // The closed-loop output type to use for the steer motors;
     // This affects the PID/FF gains for the steer motors
@@ -84,8 +84,8 @@ public class TunerConstants {
     private static final double kSteerGearRatio = 21.428571428571427;
     private static final Distance kWheelRadius = Inches.of(2);
 
-    private static final boolean kInvertLeftSide = false;
-    private static final boolean kInvertRightSide = true;
+    private static final boolean kInvertLeftSide = true;
+    private static final boolean kInvertRightSide = false;
 
     private static final int kPigeonId = 0;
 
@@ -130,8 +130,8 @@ public class TunerConstants {
     private static final int kFrontLeftSteerMotorId = 21;
     private static final int kFrontLeftEncoderId = 20;
     private static final Angle kFrontLeftEncoderOffset = Rotations.of(0.14453125);
-    private static final boolean kFrontLeftSteerMotorInverted = true; //true
-    private static final boolean kFrontLeftEncoderInverted = false; //false
+    private static final boolean kFrontLeftSteerMotorInverted = true;
+    private static final boolean kFrontLeftEncoderInverted = false;
 
     private static final Distance kFrontLeftXPos = Inches.of(13.875);
     private static final Distance kFrontLeftYPos = Inches.of(10.375);

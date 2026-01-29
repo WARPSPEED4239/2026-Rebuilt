@@ -13,9 +13,24 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static final int
-    
-      kDriverControllerPort = 0,
+  public static final int
+    //Input devices
+    XBOX_CONTROLLER = 0,
+    JOYSTICK = 1,
 
-      SHOOTER_MOTOR = 10;
+    SHOOTER_MOTOR = 1,
+    CLIMBER_MOTOR = 2,
+
+    LOADER_MOTOR = 3,
+    INTAKE_MOTOR = 4,
+
+    //Limit switches
+    CLIMBER_LIMIT = 7;
+
+  public static final double
+    CLIMBER_TOP_LIMIT = 20;
+
+  public static final String
+    CANIVORE_BUS = "Drivetrain";
+  
 }

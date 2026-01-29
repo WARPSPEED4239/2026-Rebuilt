@@ -9,10 +9,10 @@ import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class Shooter extends SubsystemBase {
-    private final TalonFX mShooterMotor = new TalonFX(Constants.SHOOTER_MOTOR);
+public class IntakeMotor extends SubsystemBase {
+    private final TalonFX mIntakeMotor = new TalonFX(Constants.INTAKE_MOTOR);
 
-    public Shooter() {
+    public IntakeMotor() {
         var talonFxConfigs = new TalonFXConfiguration();
         var slot0Configs = talonFxConfigs.Slot0;
         var motionMagicConfigs = talonFxConfigs.MotionMagic;
@@ -30,7 +30,7 @@ public class Shooter extends SubsystemBase {
         motionMagicConfigs.MotionMagicAcceleration = 50.0; //50
         motionMagicConfigs.MotionMagicJerk = 0; //1600
 
-        mShooterMotor.getConfigurator().apply(talonFxConfigs);
+        mIntakeMotor.getConfigurator().apply(talonFxConfigs);
     }
 
     @Override
@@ -39,10 +39,10 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setSpeed(double speed) {
-        mShooterMotor.set(speed);
+        mIntakeMotor.set(speed);
     }
 
     public void stopMotor() {
-        mShooterMotor.stopMotor();
+        mIntakeMotor.stopMotor();
     }
 }

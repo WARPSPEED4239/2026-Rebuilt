@@ -212,8 +212,8 @@
     "VerticalTrackSizeInches": 27.75,
     "HorizontalTrackSizeInches": 20.75,
     "WheelRadiusInches": 2.0,
-    "IsLeftSideInverted": false,
-    "IsRightSideInverted": true,
+    "IsLeftSideInverted": true,
+    "IsRightSideInverted": false,
     "SwerveModuleType": 4,
     "SwerveModuleConfiguration": {
       "ModuleBrand": 4,

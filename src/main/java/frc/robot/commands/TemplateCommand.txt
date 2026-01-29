@@ -1,0 +1,29 @@
+package frc.robot.commands;
+
+import edu.wpi.first.wpilibj2.command.Command;
+
+public class IntakeControl extends Command {
+
+    /**
+    @param param
+    */
+
+    public IntakeControl() {
+        
+        addRequirements();
+    }
+    
+    @Override
+    public void initialize() {}
+
+    @Override
+    public void execute() {}
+
+    @Override
+    public void end(boolean end) {}
+
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
+}
