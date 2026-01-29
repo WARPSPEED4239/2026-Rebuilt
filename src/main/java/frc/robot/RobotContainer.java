@@ -18,7 +18,12 @@ import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.IntakeMotor;
+import frc.robot.subsystems.IntakePneumatics;
+import frc.robot.subsystems.Loader;
+import frc.robot.subsystems.Shooter;
 
 public class RobotContainer {
     private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -37,6 +42,11 @@ public class RobotContainer {
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
     private final CommandXboxController controller = new CommandXboxController(0);
+    private final Climber m_climber = new Climber();
+    private final IntakePneumatics m_intakePneumatics = new IntakePneumatics();
+    private final IntakeMotor m_IntakeMotor = new IntakeMotor();
+    private final Loader m_loader = new Loader();
+    private final Shooter m_shooter = new Shooter();
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
