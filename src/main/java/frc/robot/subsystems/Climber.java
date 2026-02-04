@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Climber extends SubsystemBase {
-    private final TalonFX mClimberMotor = new TalonFX(Constants.CLIMBER_MOTOR);
+    public static final TalonFX mClimberMotor = new TalonFX(Constants.CLIMBER_MOTOR);
     private final DigitalInput mBottomLimit = new DigitalInput(Constants.CLIMBER_LIMIT);
     private final DutyCycleOut mDutyCyle = new DutyCycleOut(0.0);
 
