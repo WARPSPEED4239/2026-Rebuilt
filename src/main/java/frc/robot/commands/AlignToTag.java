@@ -4,6 +4,7 @@ import com.ctre.phoenix6.swerve.SwerveRequest.RobotCentric;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.LimelightHelpers;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
@@ -11,14 +12,18 @@ public class AlignToTag extends Command {
     private final CommandSwerveDrivetrain m_Drivetrain;
     private Boolean m_useFieldCentric;
     private String m_limelightName;
+    private CommandXboxController m_controller;
+    private double m_maxSpeed;
     // Tune these constants for your robot!
     private final PIDController m_turnPID = new PIDController(0.05, 0, 0.001);
     private final PIDController m_movePID = new PIDController(0.05, 0, 0);
 
-    public AlignToTag(CommandSwerveDrivetrain drivetrain, Boolean useFieldCentric, String limelightName) {
+    public AlignToTag(CommandSwerveDrivetrain drivetrain, Boolean useFieldCentric, String limelightName, CommandXboxController controller, double maxSpeed) {
         this.m_Drivetrain = drivetrain;
         this.m_useFieldCentric = useFieldCentric;
         this.m_limelightName = limelightName;
+        m_controller = controller;
+        m_maxSpeed = maxSpeed;
 
         addRequirements(drivetrain);
         m_turnPID.setTolerance(2.0); // Stop within 2 degrees
@@ -37,7 +42,7 @@ public class AlignToTag extends Command {
         if (hasTarget && !m_useFieldCentric) {
             var req = new RobotCentric()
                     .withVelocityX(-forwardSpeed) // Drive forward with negative Y (forward)
-                    .withVelocityY(0.0) // Drive left with negative X (left)
+                    .withVelocityY(-m_controller.getLeftX() * m_maxSpeed) // Drive left with negative X (left)
                     .withRotationalRate(-rotationSpeed); // Drive counterclockwise with negative X (left)
             m_Drivetrain.setControl(req);
         } else {

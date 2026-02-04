@@ -6,7 +6,7 @@ import frc.robot.subsystems.Climber;
 public class SetClimberPosition extends Command {
     private final Climber mClimberMotor;
     private double mSpeed;
-    private double encoderValue;
+    //private double encoderValue;
     private double mGoalPosition;
     double mStartingPosition;
     private boolean mEnd;

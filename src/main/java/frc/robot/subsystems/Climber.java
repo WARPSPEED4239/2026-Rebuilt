@@ -2,7 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
-import com.ctre.phoenix6.controls.MotionMagicVoltage;
+//import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -62,7 +62,7 @@ public class Climber extends SubsystemBase {
     }
 
     public void setPosition(double encoderValue) {
-        final MotionMagicVoltage request = new MotionMagicVoltage(0);
+        //final MotionMagicVoltage request = new MotionMagicVoltage(0);
         mClimberMotor.setPosition(encoderValue);
     }
 

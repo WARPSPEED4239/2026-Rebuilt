@@ -65,7 +65,7 @@ public class RobotContainer {
     private final Loader m_loader = new Loader();
     private final Shooter m_shooter = new Shooter();
 
-    private final AlignToTag m_alignToTag = new AlignToTag(drivetrain, useFieldCentric, "limelight-climber");
+    private final AlignToTag m_alignToTag = new AlignToTag(drivetrain, useFieldCentric, "limelight-climber", controller, MaxSpeed);
     private final ClimberSetSpeed m_climberSetSpeed = new ClimberSetSpeed(m_climber, 1.0);
     private final ExtendIntake m_extendIntake = new ExtendIntake(m_intakePneumatics);
     private final RetractIntake m_retractIntake = new RetractIntake(m_intakePneumatics);
