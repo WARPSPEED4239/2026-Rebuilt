@@ -25,7 +25,10 @@ public final class Constants {
     INTAKE_MOTOR = 4,
 
     //Limit switches
-    CLIMBER_LIMIT = 7;
+    CLIMBER_LIMIT = 7,
+
+    //the pigeon
+    PIGEON_ID = 0;
 
   public static final double
     CLIMBER_TOP_LIMIT = 20;
