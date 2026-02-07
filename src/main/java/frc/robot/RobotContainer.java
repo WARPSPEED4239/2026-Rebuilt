@@ -10,7 +10,7 @@ import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -54,10 +54,10 @@ public class RobotContainer {
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
     public boolean useFieldCentric = true;
-    private final Field2d field2d = new Field2d();
+    private boolean isEndgame = false;
 
     private final CommandXboxController controller = new CommandXboxController(0);
-    private final CommandJoystick joystick = new CommandJoystick(0);
+    private final CommandJoystick joystick = new CommandJoystick(1);
 
     private final Climber m_climber = new Climber();
     private final IntakePneumatics m_intakePneumatics = new IntakePneumatics();
@@ -65,7 +65,8 @@ public class RobotContainer {
     private final Loader m_loader = new Loader();
     private final Shooter m_shooter = new Shooter();
 
-    private final AlignToTag m_alignToTag = new AlignToTag(drivetrain, useFieldCentric, "limelight-climber", controller, MaxSpeed);
+    private final AlignToTag m_alignToTag = new AlignToTag(drivetrain, useFieldCentric, "limelight-climber", controller,
+            MaxSpeed);
     private final ClimberSetSpeed m_climberSetSpeed = new ClimberSetSpeed(m_climber, 1.0);
     private final ExtendIntake m_extendIntake = new ExtendIntake(m_intakePneumatics);
     private final RetractIntake m_retractIntake = new RetractIntake(m_intakePneumatics);
@@ -150,5 +151,13 @@ public class RobotContainer {
                         .withTimeout(5.0),
                 // Finally idle for the rest of auton
                 drivetrain.applyRequest(() -> idle));
+    }
+
+    public void periodic() {
+        SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
+        if (DriverStation.isTeleop() && DriverStation.getMatchTime() < 30) {
+            isEndgame = true;
+        }
+        SmartDashboard.putBoolean("Endgame", isEndgame);
     }
 }

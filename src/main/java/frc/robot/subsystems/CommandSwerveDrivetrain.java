@@ -13,20 +13,24 @@ import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.Odometry;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
+import frc.robot.LimelightHelpers;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 
 /**
@@ -40,8 +44,16 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private static final double kSimLoopPeriod = 0.004; // 4 ms
     private Notifier m_simNotifier = null;
     private double m_lastSimTime;
-    private final Pigeon2 pigeon;
-    private Odometry odometry = new SwerveDriveOdometry(getKinematics(), getOperatorForwardDirection(), null);
+    public Field2d field = new Field2d();
+    private Alliance alliance = Alliance.Blue;
+    private SwerveModulePosition[] modulePositions = getState().ModulePositions;
+    private SwerveDrivePoseEstimator poseEstimator = new SwerveDrivePoseEstimator(getKinematics(), getRotation2d(), modulePositions, new Pose2d());
+    private Pose2d visionPose = (alliance == Alliance.Blue)
+    ? LimelightHelpers.getBotPose2d_wpiBlue(Constants.LIMELIGHT_NAME)
+    : LimelightHelpers.getBotPose2d_wpiRed(Constants.LIMELIGHT_NAME);
+    private double latencyMs = LimelightHelpers.getLatency_Pipeline(Constants.LIMELIGHT_NAME + LimelightHelpers.getLatency_Capture(Constants.LIMELIGHT_NAME));
+    private double timestamp = Timer.getFPGATimestamp() - (latencyMs / 1000.0);
+    private double[] botPose = LimelightHelpers.getBotPose(Constants.LIMELIGHT_NAME);
 
     /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
     private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
@@ -135,8 +147,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         if (Utils.isSimulation()) {
             startSimThread();
         }
-
-        pigeon = new Pigeon2(Constants.PIGEON_ID, "drivetrain");
+        SmartDashboard.putData("field", field);
     }
 
     /**
@@ -162,7 +173,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             startSimThread();
         }
 
-        pigeon = new Pigeon2(Constants.PIGEON_ID, "drivetrain");
+        SmartDashboard.putData("field", field);
     }
 
     /**
@@ -196,7 +207,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             startSimThread();
         }
 
-        pigeon = new Pigeon2(Constants.PIGEON_ID, "drivetrain");
+        SmartDashboard.putData("field", field);
     }
 
     /**
@@ -231,11 +242,15 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         return m_sysIdRoutineToApply.dynamic(direction);
     }
     
-    public Rotation2d getRotation2d() {
-        return Rotation2d.fromDegrees(pigeon.getYaw().getValueAsDouble());
+    public void resetPose() {
+        if (LimelightHelpers.getTV(Constants.LIMELIGHT_NAME) && botPose.length >= 6 && botPose[0] != 0.0) {
+            poseEstimator.addVisionMeasurement(visionPose, timestamp);
+        }
     }
 
-    
+    public Rotation2d getRotation2d() {
+    return getState().Pose.getRotation();
+}
 
     @Override
     public void periodic() {
@@ -256,6 +271,13 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 m_hasAppliedOperatorPerspective = true;
             });
         }
+
+        var allianceOpt = DriverStation.getAlliance();
+        if (allianceOpt.isPresent()) {
+            alliance = allianceOpt.get();
+        }
+
+        field.setRobotPose(poseEstimator.getEstimatedPosition());
     }
 
     private void startSimThread() {

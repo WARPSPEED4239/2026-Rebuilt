@@ -28,12 +28,13 @@ public final class Constants {
     CLIMBER_LIMIT = 7,
 
     //the pigeon
-    PIGEON_ID = 0;
+    PIGEON_ID = 9;
 
   public static final double
     CLIMBER_TOP_LIMIT = 20;
 
   public static final String
-    CANIVORE_BUS = "Drivetrain";
+    CANIVORE_BUS = "DriveTrain",
+    LIMELIGHT_NAME = "limelight-coral";
   
 }

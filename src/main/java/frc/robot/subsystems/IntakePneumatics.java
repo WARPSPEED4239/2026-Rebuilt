@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakePneumatics extends SubsystemBase {
     private final DoubleSolenoid m_DoubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
-    private final DoubleSolenoid m_DoubleSolenoid2 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
+    private final DoubleSolenoid m_DoubleSolenoid2 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2, 3);
     private final Compressor m_compressor = new Compressor(PneumaticsModuleType.CTREPCM);
 
     public IntakePneumatics() {

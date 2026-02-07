@@ -1,0 +1,80 @@
+Date : 2026-02-07 16:24:24
+Directory : c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt
+Total : 35 files,  3404 codes, 821 comments, 633 blanks, all 4858 lines
+
+Languages
++-----------------+------------+------------+------------+------------+------------+
+| language        | files      | code       | comment    | blank      | total      |
++-----------------+------------+------------+------------+------------+------------+
+| Java            |         22 |      2,252 |        768 |        580 |      3,600 |
+| JSON            |          8 |        990 |          0 |          3 |        993 |
+| Groovy          |          2 |         92 |         21 |         24 |        137 |
+| Batch           |          1 |         41 |         32 |         22 |         95 |
+| Markdown        |          1 |         22 |          0 |          3 |         25 |
+| Java Properties |          1 |          7 |          0 |          1 |          8 |
++-----------------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                     | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                        |         35 |      3,404 |        821 |        633 |      4,858 |
+| . (Files)                                                                                                                |          6 |        479 |         53 |         50 |        582 |
+| .wpilib                                                                                                                  |          1 |          6 |          0 |          1 |          7 |
+| gradle                                                                                                                   |          1 |          7 |          0 |          1 |          8 |
+| gradle\wrapper                                                                                                           |          1 |          7 |          0 |          1 |          8 |
+| src                                                                                                                      |         23 |      2,253 |        768 |        580 |      3,601 |
+| src\main                                                                                                                 |         23 |      2,253 |        768 |        580 |      3,601 |
+| src\main\deploy                                                                                                          |          1 |          1 |          0 |          0 |          1 |
+| src\main\deploy\pathplanner                                                                                              |          1 |          1 |          0 |          0 |          1 |
+| src\main\java                                                                                                            |         22 |      2,252 |        768 |        580 |      3,600 |
+| src\main\java\frc                                                                                                        |         22 |      2,252 |        768 |        580 |      3,600 |
+| src\main\java\frc\robot                                                                                                  |         22 |      2,252 |        768 |        580 |      3,600 |
+| src\main\java\frc\robot (Files)                                                                                          |          6 |      1,459 |        526 |        388 |      2,373 |
+| src\main\java\frc\robot\commands                                                                                         |          8 |        214 |         24 |         67 |        305 |
+| src\main\java\frc\robot\generated                                                                                        |          1 |        167 |         83 |         37 |        287 |
+| src\main\java\frc\robot\subsystems                                                                                       |          7 |        412 |        135 |         88 |        635 |
+| vendordeps                                                                                                               |          4 |        659 |          0 |          1 |        660 |
++--------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------------------------------------------------------------------+-----------------+------------+------------+------------+------------+
+| filename                                                                                                                 | language        | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------------------------------+-----------------+------------+------------+------------+------------+
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\.wpilib\wpilib_preferences.json                                 | JSON            |          6 |          0 |          1 |          7 |
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\WPILib-License.md                                               | Markdown        |         22 |          0 |          3 |         25 |
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\build.gradle                                                    | Groovy          |         64 |         21 |         21 |        106 |
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\gradle\wrapper\gradle-wrapper.properties                        | Java Properties |          7 |          0 |          1 |          8 |
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\gradlew.bat                                                     | Batch           |         41 |         32 |         22 |         95 |
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\settings.gradle                                                 | Groovy          |         28 |          0 |          3 |         31 |
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\simgui-ds.json                                                  | JSON            |         92 |          0 |          1 |         93 |
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\src\main\deploy\pathplanner\navgrid.json                        | JSON            |          1 |          0 |          0 |          1 |
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\src\main\java\frc\robot\Constants.java                          | Java            |         17 |         14 |         10 |         41 |
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\src\main\java\frc\robot\LimelightHelpers.java                   | Java            |      1,171 |        465 |        311 |      1,947 |
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\src\main\java\frc\robot\Main.java                               | Java            |          8 |          3 |          5 |         16 |
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\src\main\java\frc\robot\Robot.java                              | Java            |         57 |          4 |         23 |         84 |
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\src\main\java\frc\robot\RobotContainer.java                     | Java            |        117 |         23 |         23 |        163 |
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\src\main\java\frc\robot\Telemetry.java                          | Java            |         89 |         17 |         16 |        122 |
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\src\main\java\frc\robot\commands\AlignToTag.java                | Java            |         46 |          2 |          9 |         57 |
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\src\main\java\frc\robot\commands\ClimberSetSpeed.java           | Java            |         26 |          3 |          9 |         38 |
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\src\main\java\frc\robot\commands\ExtendIntake.java              | Java            |         16 |          3 |          6 |         25 |
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\src\main\java\frc\robot\commands\IntakeSetSpeed.java            | Java            |         26 |          3 |          9 |         38 |
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\src\main\java\frc\robot\commands\LoaderSetSpeed.java            | Java            |         24 |          3 |          6 |         33 |
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\src\main\java\frc\robot\commands\RetractIntake.java             | Java            |         16 |          3 |          6 |         25 |
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\src\main\java\frc\robot\commands\SetClimberPosition.java        | Java            |         33 |          4 |         12 |         49 |
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\src\main\java\frc\robot\commands\ShooterSetSpeed.java           | Java            |         27 |          3 |         10 |         40 |
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\src\main\java\frc\robot\generated\TunerConstants.java           | Java            |        167 |         83 |         37 |        287 |
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\src\main\java\frc\robot\subsystems\Climber.java                 | Java            |         68 |          2 |         15 |         85 |
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\src\main\java\frc\robot\subsystems\CommandSwerveDrivetrain.java | Java            |        189 |        123 |         31 |        343 |
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\src\main\java\frc\robot\subsystems\IntakeMotor.java             | Java            |         39 |          0 |         10 |         49 |
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\src\main\java\frc\robot\subsystems\IntakePneumatics.java        | Java            |         27 |          0 |          7 |         34 |
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\src\main\java\frc\robot\subsystems\Loader.java                  | Java            |         31 |          0 |          8 |         39 |
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\src\main\java\frc\robot\subsystems\Shooter.java                 | Java            |         39 |          0 |         10 |         49 |
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\src\main\java\frc\robot\subsystems\llPoseDistance.java          | Java            |         19 |         10 |          7 |         36 |
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\tuner-project.json                                              | JSON            |        232 |          0 |          0 |        232 |
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\vendordeps\PathplannerLib-2026.1.2.json                         | JSON            |         38 |          0 |          0 |         38 |
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\vendordeps\Phoenix6-26.1.0.json                                 | JSON            |        449 |          0 |          0 |        449 |
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\vendordeps\REVLib.json                                          | JSON            |        133 |          0 |          0 |        133 |
+| c:\Users\warpspeed\Documents\Robotics\Repos\2026-Rebuilt\vendordeps\WPILibNewCommands.json                               | JSON            |         39 |          0 |          1 |         40 |
+| Total                                                                                                                    |                 |      3,404 |        821 |        633 |      4,858 |
++--------------------------------------------------------------------------------------------------------------------------+-----------------+------------+------------+------------+------------+
