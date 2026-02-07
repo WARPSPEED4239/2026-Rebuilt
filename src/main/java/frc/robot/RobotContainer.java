@@ -34,9 +34,9 @@ import frc.robot.subsystems.Loader;
 import frc.robot.subsystems.Shooter;
 
 public class RobotContainer {
-    private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top
+    private double MaxSpeed = 0.5 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top 1
                                                                                         // speed
-    private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second
+    private double MaxAngularRate = RotationsPerSecond.of(0.25).in(RadiansPerSecond); // 3/4 of a rotation per second .75
                                                                                       // max angular velocity
 
     /* Setting up bindings for necessary control of the swerve drive platform */
@@ -54,7 +54,7 @@ public class RobotContainer {
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
     public boolean useFieldCentric = true;
-    private boolean isEndgame = false;
+    private double time;
 
     private final CommandXboxController controller = new CommandXboxController(0);
     private final CommandJoystick joystick = new CommandJoystick(1);
@@ -154,10 +154,8 @@ public class RobotContainer {
     }
 
     public void periodic() {
-        SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
-        if (DriverStation.isTeleop() && DriverStation.getMatchTime() < 30) {
-            isEndgame = true;
-        }
-        SmartDashboard.putBoolean("Endgame", isEndgame);
+        time = DriverStation.getMatchTime();
+        SmartDashboard.putNumber("Match Time", time);
+        SmartDashboard.putNumber("Match Time", time < 0 ? 0 : time);
     }
 }

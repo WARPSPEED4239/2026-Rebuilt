@@ -7,7 +7,6 @@ import java.util.function.Supplier;
 
 import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.Utils;
-import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveRequest;
@@ -44,7 +43,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private static final double kSimLoopPeriod = 0.004; // 4 ms
     private Notifier m_simNotifier = null;
     private double m_lastSimTime;
-    public Field2d field = new Field2d();
+    private final Field2d field = new Field2d();
     private Alliance alliance = Alliance.Blue;
     private SwerveModulePosition[] modulePositions = getState().ModulePositions;
     private SwerveDrivePoseEstimator poseEstimator = new SwerveDrivePoseEstimator(getKinematics(), getRotation2d(), modulePositions, new Pose2d());
@@ -242,7 +241,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         return m_sysIdRoutineToApply.dynamic(direction);
     }
     
-    public void resetPose() {
+    public void updatePose() {
         if (LimelightHelpers.getTV(Constants.LIMELIGHT_NAME) && botPose.length >= 6 && botPose[0] != 0.0) {
             poseEstimator.addVisionMeasurement(visionPose, timestamp);
         }
@@ -277,7 +276,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             alliance = allianceOpt.get();
         }
 
-        field.setRobotPose(poseEstimator.getEstimatedPosition());
+        updatePose();
+
+        field.setRobotPose(getState().Pose);
+        field.getObject("Vision").setPose(visionPose);
     }
 
     private void startSimThread() {
