@@ -1,25 +1,26 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.IntakePneumatics;
+import frc.robot.subsystems.IntakeExtension;
 
 public class ExtendIntake extends Command {
-    private final IntakePneumatics mIntakePneumatics;
+    private final IntakeExtension mIntakeExtension;
+    private double mSpeed;
 
     /**
-    @param IntakePneumatics
+    @param IntakeExtension
     */
 
-    public ExtendIntake(IntakePneumatics mIntake) {
-        mIntakePneumatics = mIntake;
+    public ExtendIntake(IntakeExtension mIntake, double speed) {
+        mIntakeExtension = mIntake;
+        mSpeed = speed;
         addRequirements(mIntake);
     }
     
     @Override
     public void initialize() {}
 
-    @Override
     public void execute() {
-        mIntakePneumatics.extend();
+        mIntakeExtension.setSpeed(mSpeed);
     }
 }

@@ -15,7 +15,7 @@ public class Loader extends SubsystemBase {
     private final SparkMaxConfig mLoaderMotorConfig = new SparkMaxConfig();
     
     public Loader() {
-        mLoaderMotorConfig.inverted(false);
+        mLoaderMotorConfig.inverted(true);
         try{
             mLoaderMotor.configure(mLoaderMotorConfig,ResetMode.kNoResetSafeParameters,PersistMode.kPersistParameters);
             System.out.println("Successfully configured Coral Intake Motor");

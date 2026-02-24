@@ -6,6 +6,7 @@ import frc.robot.subsystems.Loader;
 public class LoaderSetSpeed extends Command {
     private final Loader mLoader;
     private double mSpeed;
+    private boolean mEnd;
     /**
      * @param Loader
      */
@@ -28,6 +29,9 @@ public class LoaderSetSpeed extends Command {
 
     @Override
     public boolean isFinished() {
-        return false;
+        if(mEnd) {
+            return true;
+        }
+         return false;
     }
 }

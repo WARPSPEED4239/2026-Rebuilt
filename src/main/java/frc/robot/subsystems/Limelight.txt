@@ -1,0 +1,37 @@
+package frc.robot.subsystems;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.LimelightHelpers;
+
+public class Limelight extends SubsystemBase {
+  
+  private final LimelightHelpers ClimberLimelight = new LimelightHelpers();
+  private final double KpSIDE = 0.075; //Tune; too high will cause oscillations
+
+  public Limelight() {}
+
+  public double GetLeftRightSpeed(double maxDriveSpeed, double TXWithOffset) {
+
+    return -TXWithOffset * KpSIDE * maxDriveSpeed;
+  }
+
+  public double getTX() {
+    return ClimberLimelight.getTX(Constants.LIMELIGHT_NAME);
+  }
+
+  public double getTA() {
+    return ClimberLimelight.getTA(Constants.LIMELIGHT_NAME);
+  }
+
+  public double TXOffsetRight(double TA){
+    return (TA -1.56) / -0.0615;
+  }
+
+  @Override
+  public void periodic() {
+    SmartDashboard.putNumber("Limelight Distance", getTA());
+  }
+  
+}

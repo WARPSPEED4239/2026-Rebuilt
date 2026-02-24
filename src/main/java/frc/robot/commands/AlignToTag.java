@@ -1,6 +1,6 @@
 package frc.robot.commands;
 
-import com.ctre.phoenix6.swerve.SwerveRequest.RobotCentric;
+import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -9,21 +9,23 @@ import frc.robot.LimelightHelpers;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 public class AlignToTag extends Command {
-    private final CommandSwerveDrivetrain m_Drivetrain;
-    private Boolean m_useFieldCentric;
-    private String m_limelightName;
-    private CommandXboxController m_controller;
-    private double m_maxSpeed;
-    // Tune these constants for your robot!
+    private final CommandSwerveDrivetrain mDrivetrain;
+    private Boolean mUseFieldCentric;
+    private String mLimelightName;
+    private CommandXboxController mController;
+    private double mMaxAngularRate;
+    private SwerveRequest.RobotCentric mDrive;
+
     private final PIDController m_turnPID = new PIDController(0.05, 0, 0.001);
     private final PIDController m_movePID = new PIDController(0.05, 0, 0);
 
-    public AlignToTag(CommandSwerveDrivetrain drivetrain, Boolean useFieldCentric, String limelightName, CommandXboxController controller, double maxSpeed) {
-        this.m_Drivetrain = drivetrain;
-        this.m_useFieldCentric = useFieldCentric;
-        this.m_limelightName = limelightName;
-        m_controller = controller;
-        m_maxSpeed = maxSpeed;
+    public AlignToTag(CommandSwerveDrivetrain drivetrain, SwerveRequest.RobotCentric drive, Boolean useFieldCentric, String limelightName, CommandXboxController controller, double maxAngularRate) {
+        this.mDrivetrain = drivetrain;
+        this.mUseFieldCentric = useFieldCentric;
+        this.mLimelightName = limelightName;
+        mController = controller;
+        mMaxAngularRate = maxAngularRate;
+        mDrive = drive;
 
         addRequirements(drivetrain);
         m_turnPID.setTolerance(2.0); // Stop within 2 degrees
@@ -31,27 +33,31 @@ public class AlignToTag extends Command {
 
     @Override
     public void execute() {
-        boolean hasTarget = LimelightHelpers.getTV(m_limelightName);
-        double tx = LimelightHelpers.getTX(m_limelightName);
-        double ty = LimelightHelpers.getTY(m_limelightName);
+        boolean hasTarget = LimelightHelpers.getTV(mLimelightName);
+        double tx = LimelightHelpers.getTX(mLimelightName);
+        double ty = LimelightHelpers.getTY(mLimelightName);
 
-        // Calculate speeds: we want tx and ty to reach our "sweet spot"
+        // tune
         double rotationSpeed = m_turnPID.calculate(tx, 0);
-        double forwardSpeed = m_movePID.calculate(ty, 5.0); // 5.0 is a sample ty setpoint
+        double forwardSpeed = m_movePID.calculate(ty, 5.0);
 
-        if (hasTarget && !m_useFieldCentric) {
-            var req = new RobotCentric()
-                    .withVelocityX(-forwardSpeed) // Drive forward with negative Y (forward)
-                    .withVelocityY(-m_controller.getLeftX() * m_maxSpeed) // Drive left with negative X (left)
-                    .withRotationalRate(-rotationSpeed); // Drive counterclockwise with negative X (left)
-            m_Drivetrain.setControl(req);
+        if (hasTarget && !mUseFieldCentric) {        
+            mDrivetrain.setControl(
+                mDrive.withVelocityX(-forwardSpeed) // Drive forward with negative Y (forward)
+                    .withVelocityY(rotationSpeed) // Drive left with negative X (left)
+                    .withRotationalRate(-mController.getRightX() * mMaxAngularRate) // Drive counterclockwise with negative X (left)
+            );
         } else {
-            m_Drivetrain.idle();
+            mDrivetrain.idle();
         }
     }
 
     @Override
     public void end(boolean interrupted) {
-        m_Drivetrain.idle();
+        mDrivetrain.idle();
+    }
+
+    public boolean isFinished() {
+        return false;
     }
 }

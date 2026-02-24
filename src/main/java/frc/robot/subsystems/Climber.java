@@ -1,22 +1,19 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.DutyCycleOut;
-//import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Climber extends SubsystemBase {
     public static final TalonFX mClimberMotor = new TalonFX(Constants.CLIMBER_MOTOR);
-    private final DigitalInput mBottomLimit = new DigitalInput(Constants.CLIMBER_LIMIT);
-    private final DutyCycleOut mDutyCyle = new DutyCycleOut(0.0);
+    public static final TalonFX mClimberMotor1 = new TalonFX(Constants.CLIMBER_MOTOR_1);
 
     public Climber() {
         var talonFxConfigs = new TalonFXConfiguration();
@@ -37,21 +34,13 @@ public class Climber extends SubsystemBase {
         motionMagicConfigs.MotionMagicJerk = 0; //1600
 
         mClimberMotor.getConfigurator().apply(talonFxConfigs);
+        mClimberMotor1.getConfigurator().apply(talonFxConfigs);
     }
 
     @Override
     public void periodic() {
-        SmartDashboard.putBoolean("LiftLimitDown", getBottomLimit());
-        SmartDashboard.putNumber("LiftEncoder", getEncoderValue());
-
-        if(getBottomLimit()) {
-            setPosition(0.0);
-        }
+        SmartDashboard.putNumber("Climber Encoder", getEncoderValue());
     }
-
-    public void setOutputWithLimitSensors(double speed) {
-    mClimberMotor.setControl(mDutyCyle.withOutput(speed).withLimitForwardMotion(getTopLimit()).withLimitReverseMotion(mBottomLimit.get()));
-  }
 
     public void setSpeed(double speed) {
         mClimberMotor.set(speed);
@@ -61,13 +50,13 @@ public class Climber extends SubsystemBase {
         return mClimberMotor.getPosition().getValueAsDouble();
     }
 
-    public void setPosition(double encoderValue) {
-        //final MotionMagicVoltage request = new MotionMagicVoltage(0);
+    public void setEncoderValue(double encoderValue) {
         mClimberMotor.setPosition(encoderValue);
     }
 
-    public boolean getBottomLimit() {
-        return mBottomLimit.get();
+    public void setPosition(double pos) {
+        final MotionMagicVoltage request = new MotionMagicVoltage(0);
+        mClimberMotor.setControl(request.withPosition(pos));
     }
 
     public boolean getTopLimit() {

@@ -29,12 +29,7 @@ public class SetClimberPosition extends Command {
 
     public void execute() {
         mClimberMotor.setSpeed(mSpeed);
-
-        if (mClimberMotor.getBottomLimit() && mStartingPosition > mClimberMotor.getEncoderValue()) {
-      mClimberMotor.setPosition(0.0);
-    }
-
-    mClimberMotor.setPosition(mGoalPosition);
+        mClimberMotor.setPosition(mGoalPosition);
     }
 
     @Override

@@ -20,18 +20,19 @@ public final class Constants {
 
     SHOOTER_MOTOR = 1,
     CLIMBER_MOTOR = 2,
+    CLIMBER_MOTOR_1 = 3,
+    LOADER_MOTOR = 4,
+    INTAKE_MOTOR = 5,
+    INTAKE_EXTENSION_MOTOR = 6,
 
-    LOADER_MOTOR = 3,
-    INTAKE_MOTOR = 4,
-
-    //Limit switches
-    CLIMBER_LIMIT = 7,
+    //Encoders
+    INTAKE_THROUGHBORE_ENCODER = 7,
 
     //the pigeon
     PIGEON_ID = 9;
 
   public static final double
-    CLIMBER_TOP_LIMIT = 20;
+    CLIMBER_TOP_LIMIT = 100;
 
   public static final String
     CANIVORE_BUS = "DriveTrain",
