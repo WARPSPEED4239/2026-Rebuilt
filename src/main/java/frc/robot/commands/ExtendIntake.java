@@ -5,22 +5,24 @@ import frc.robot.subsystems.IntakeExtension;
 
 public class ExtendIntake extends Command {
     private final IntakeExtension mIntakeExtension;
-    private double mSpeed;
+    private double mGoalPos;
 
     /**
     @param IntakeExtension
     */
 
-    public ExtendIntake(IntakeExtension mIntake, double speed) {
+    public ExtendIntake(IntakeExtension mIntake, double targetPosition) {
         mIntakeExtension = mIntake;
-        mSpeed = speed;
+        mGoalPos = targetPosition;
         addRequirements(mIntake);
+
+        
     }
     
     @Override
     public void initialize() {}
 
     public void execute() {
-        mIntakeExtension.setSpeed(mSpeed);
+        mIntakeExtension.setPosition(mGoalPos);
     }
 }

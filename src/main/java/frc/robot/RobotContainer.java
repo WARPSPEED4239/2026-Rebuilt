@@ -7,29 +7,27 @@ package frc.robot;
 import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
-import com.pathplanner.lib.auto.AutoBuilder;
+//import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-import frc.robot.commands.AlignToTag;
-import frc.robot.commands.ClimberSetPos;
-import frc.robot.commands.ClimberSetSpeed;
+//import frc.robot.commands.AlignToTag;
+//import frc.robot.commands.ClimberSetPos;
+//import frc.robot.commands.ClimberSetSpeed;
 import frc.robot.commands.ExtendIntake;
 import frc.robot.commands.IntakeSetSpeed;
 import frc.robot.commands.LoaderSetSpeed;
 import frc.robot.commands.ShooterSetSpeed;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.Climber;
+//import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.IntakeMotor;
 import frc.robot.subsystems.IntakeExtension;
@@ -44,7 +42,7 @@ public class RobotContainer {
 
     /* Setting up bindings for necessary control of the swerve drive platform */
     public final SwerveRequest.FieldCentric fieldCentric = new SwerveRequest.FieldCentric()
-            .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
+            .withDeadband(MaxSpeed * 0.15).withRotationalDeadband(MaxAngularRate * 0.15) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
     public final SwerveRequest.RobotCentric robotCentric = new SwerveRequest.RobotCentric()
             .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
@@ -62,25 +60,26 @@ public class RobotContainer {
     private final CommandXboxController controller = new CommandXboxController(0);
     private final CommandJoystick joystick = new CommandJoystick(1);
 
-    private final Climber m_climber = new Climber();
+    //private final Climber m_climber = new Climber();
     private final IntakeExtension m_intakeExtension = new IntakeExtension();
     private final IntakeMotor m_intakeMotor = new IntakeMotor();
     private final Loader m_loader = new Loader();
     private final Shooter m_shooter = new Shooter();
 
-    private SendableChooser<Command> autoChooser;
+    //private SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
-        NamedCommands.registerCommand("Shoot balls", new ShooterSetSpeed(m_shooter, 1.0));
-        m_climber.setDefaultCommand(new ClimberSetSpeed(m_climber, 0.0));
+        NamedCommands.registerCommand("Shoot balls", new ShooterSetSpeed(m_shooter, m_loader, 1.0));
+        //m_climber.setDefaultCommand(new ClimberSetSpeed(m_climber, 0.0));
         m_intakeMotor.setDefaultCommand(new IntakeSetSpeed(m_intakeMotor, 0.0));
-        m_loader.setDefaultCommand(new LoaderSetSpeed(m_loader, 0.0));
-        m_shooter.setDefaultCommand(new ShooterSetSpeed(m_shooter, 0.0));
+        m_loader.setDefaultCommand(new LoaderSetSpeed(m_loader, m_shooter, 0.0, 0.0));
+        m_shooter.setDefaultCommand(new ShooterSetSpeed(m_shooter, m_loader, 0.0));
         m_intakeExtension.setDefaultCommand(new ExtendIntake(m_intakeExtension, 0.0));
 
-        autoChooser = AutoBuilder.buildAutoChooser();
+        //autoChooser = AutoBuilder.buildAutoChooser();
 
-        SmartDashboard.putData("Auto Chooser", autoChooser);
+        //SmartDashboard.putData("Auto Chooser", autoChooser);
+        SmartDashboard.putBoolean("Filed Cenric", useFieldCentric);
 
         configureBindings();
     }
@@ -129,21 +128,21 @@ public class RobotContainer {
             useFieldCentric = !useFieldCentric;
             SmartDashboard.putBoolean("Field Centric", useFieldCentric);
         }));
-        joystick.povUp().whileTrue(new ShooterSetSpeed(m_shooter, 1.0));
+        joystick.povUp().whileTrue(new ShooterSetSpeed(m_shooter, m_loader, 1.0));
         joystick.povDown().whileTrue(new IntakeSetSpeed(m_intakeMotor, 1.0));
-        joystick.povRight().whileTrue(new LoaderSetSpeed(m_loader, 1.0));
-        joystick.povLeft().whileTrue(new ShooterSetSpeed(m_shooter, -1.0));
-        joystick.button(3).whileTrue(new ClimberSetSpeed(m_climber, 1.0));
-        joystick.button(4).whileTrue(new ClimberSetSpeed(m_climber, -1.0));
-        joystick.button(5).onTrue(new ExtendIntake(m_intakeExtension, 1.0));
-        joystick.button(6).onTrue(new ExtendIntake(m_intakeExtension, -1.0));
-        joystick.button(7).onTrue(new ClimberSetPos(m_climber, 1.0));
-        controller.povUp().whileTrue(new AlignToTag(drivetrain, robotCentric, useFieldCentric, Constants.LIMELIGHT_NAME, controller, MaxAngularRate));
+        joystick.povRight().whileTrue(new LoaderSetSpeed(m_loader, m_shooter, 2.4, 0.4));
+        joystick.povLeft().whileTrue(new ShooterSetSpeed(m_shooter, m_loader, -0.2));
+        /*joystick.button(3).whileTrue(new ClimberSetSpeed(m_climber, 1.0));
+        joystick.button(4).whileTrue(new ClimberSetSpeed(m_climber, -1.0));*/
+        joystick.button(5).onTrue(new ExtendIntake(m_intakeExtension, 0.6));
+        joystick.button(6).onTrue(new ExtendIntake(m_intakeExtension, -0.6));
+        //joystick.button(7).onTrue(new ClimberSetPos(m_climber, 1.0));
+        //controller.povUp().whileTrue(new AlignToTag(drivetrain, robotCentric, useFieldCentric, Constants.LIMELIGHT_NAME, controller, MaxAngularRate));
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }
 
-    public Command getAutonomousCommand() {
+    //public Command getAutonomousCommand() {
         /*// Simple drive forward auton
         final var idle = new SwerveRequest.Idle();
         return Commands.sequence(
@@ -158,8 +157,8 @@ public class RobotContainer {
                 // Finally idle for the rest of auton
                 drivetrain.applyRequest(() -> idle));*/
 
-        return autoChooser.getSelected();
-    }
+        //return autoChooser.getSelected();
+    //}
 
     public void periodic() {
         time = DriverStation.getMatchTime();

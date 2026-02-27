@@ -10,7 +10,7 @@ import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveRequest;
-import com.pathplanner.lib.auto.AutoBuilder;
+//import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
@@ -152,7 +152,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             startSimThread();
         }
 
-        configureAutoBuilder();
+        //configureAutoBuilder();
         SmartDashboard.putData("field", field);
     }
 
@@ -179,7 +179,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             startSimThread();
         }
 
-        configureAutoBuilder();
+        //configureAutoBuilder();
         SmartDashboard.putData("field", field);
     }
 
@@ -214,11 +214,11 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             startSimThread();
         }
 
-        configureAutoBuilder();
+        //configureAutoBuilder();
         SmartDashboard.putData("field", field);
     }
 
-    private void configureAutoBuilder() {
+    /*private void configureAutoBuilder() {
             try {
                 var config = RobotConfig.fromGUISettings();
                 AutoBuilder.configure(
@@ -245,7 +245,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             } catch (Exception ex) {
                 DriverStation.reportError("Failed to load PathPlanner config and configure AutoBuilder", ex.getStackTrace());
             }
-        }
+        }*/
 
     /**
      * Returns a command that applies the specified control request to this swerve drivetrain.

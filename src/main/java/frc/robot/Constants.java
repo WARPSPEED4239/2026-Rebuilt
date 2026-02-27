@@ -28,10 +28,15 @@ public final class Constants {
     //Encoders
     INTAKE_THROUGHBORE_ENCODER = 7,
 
+    //PDH
+    PDH = 8,
+
     //the pigeon
     PIGEON_ID = 9;
 
   public static final double
+    EXTENDER_BACK_LIMIT = -12,
+    EXTENDER_FORWARD_LIMIT = -33,
     CLIMBER_TOP_LIMIT = 100;
 
   public static final String

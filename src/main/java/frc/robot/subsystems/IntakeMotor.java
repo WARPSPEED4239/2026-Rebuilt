@@ -1,9 +1,11 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.spark.SparkMax;
+
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -22,7 +24,7 @@ public class IntakeMotor extends SubsystemBase {
         } catch (Exception e1){
             e1.printStackTrace();
             DriverStation.reportWarning("Failed to configure Intake motor", true);
-        }
+        }   
     }
 
     @Override
