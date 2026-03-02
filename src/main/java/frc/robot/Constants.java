@@ -24,19 +24,15 @@ public final class Constants {
     LOADER_MOTOR = 4,
     INTAKE_MOTOR = 5,
     INTAKE_EXTENSION_MOTOR = 6,
-
-    //Encoders
-    INTAKE_THROUGHBORE_ENCODER = 7,
+    UNDER_SHOOTER_MOTOR = 7,
 
     //PDH
     PDH = 8,
 
     //the pigeon
-    PIGEON_ID = 9;
+    PIGEON_ID = 13;
 
   public static final double
-    EXTENDER_BACK_LIMIT = -12,
-    EXTENDER_FORWARD_LIMIT = -33,
     CLIMBER_TOP_LIMIT = 100;
 
   public static final String

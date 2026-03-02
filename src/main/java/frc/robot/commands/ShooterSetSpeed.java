@@ -3,10 +3,12 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Loader;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.UnderShooterMotor;
 
 public class ShooterSetSpeed extends Command {
     private final Shooter mShooterMotor;
     private final Loader mLoaderMotor;
+    private final UnderShooterMotor mUnderShooterMotor;
     private double mSpeed;
 
     /**
@@ -14,28 +16,27 @@ public class ShooterSetSpeed extends Command {
      * @param Loader
      */
 
-    public ShooterSetSpeed(Shooter shooter, Loader loader, double speed) {
+    public ShooterSetSpeed(Shooter shooter, Loader loader, UnderShooterMotor underShooterMotor, double speed) {
         mShooterMotor = shooter;
         mLoaderMotor = loader;
+        mUnderShooterMotor = underShooterMotor;
         mSpeed = speed;
-        addRequirements(shooter, loader);
+        addRequirements(mShooterMotor, mLoaderMotor, mUnderShooterMotor);
     }
 
     public void initialize() {}
 
     public void execute() {
-        mShooterMotor.setSpeed(mSpeed);
+        mShooterMotor.setSpeed(-mSpeed);
         mLoaderMotor.setSpeed(mSpeed);
-
-        if(mSpeed == 0.0) {
-            mShooterMotor.stopMotor();
-            mLoaderMotor.stopMotor();
-        }
+        mUnderShooterMotor.setSpeed(mSpeed);
     }
 
     @Override
     public void end(boolean interrupted) {
         mShooterMotor.stopMotor();
+        mLoaderMotor.stopMotor();
+        mUnderShooterMotor.stopMotor();
     }
 
     @Override

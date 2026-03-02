@@ -12,9 +12,9 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
@@ -24,7 +24,6 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 //import frc.robot.commands.ClimberSetSpeed;
 import frc.robot.commands.ExtendIntake;
 import frc.robot.commands.IntakeSetSpeed;
-import frc.robot.commands.LoaderSetSpeed;
 import frc.robot.commands.ShooterSetSpeed;
 import frc.robot.generated.TunerConstants;
 //import frc.robot.subsystems.Climber;
@@ -33,6 +32,7 @@ import frc.robot.subsystems.IntakeMotor;
 import frc.robot.subsystems.IntakeExtension;
 import frc.robot.subsystems.Loader;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.UnderShooterMotor;
 
 public class RobotContainer {
     private double MaxSpeed = 0.5 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top 1
@@ -55,7 +55,6 @@ public class RobotContainer {
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
     public boolean useFieldCentric = true;
-    private double time;
 
     private final CommandXboxController controller = new CommandXboxController(0);
     private final CommandJoystick joystick = new CommandJoystick(1);
@@ -65,15 +64,17 @@ public class RobotContainer {
     private final IntakeMotor m_intakeMotor = new IntakeMotor();
     private final Loader m_loader = new Loader();
     private final Shooter m_shooter = new Shooter();
+    private final UnderShooterMotor m_underShooterMotor = new UnderShooterMotor();
 
     //private SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
-        NamedCommands.registerCommand("Shoot balls", new ShooterSetSpeed(m_shooter, m_loader, 1.0));
+        NamedCommands.registerCommand("Shoot balls", new ShooterSetSpeed(m_shooter, m_loader, m_underShooterMotor, 1.0));
         //m_climber.setDefaultCommand(new ClimberSetSpeed(m_climber, 0.0));
-        m_intakeMotor.setDefaultCommand(new IntakeSetSpeed(m_intakeMotor, 0.0));
-        m_loader.setDefaultCommand(new LoaderSetSpeed(m_loader, m_shooter, 0.0, 0.0));
-        m_shooter.setDefaultCommand(new ShooterSetSpeed(m_shooter, m_loader, 0.0));
+        m_intakeMotor.setDefaultCommand(new IntakeSetSpeed(m_intakeMotor, m_loader, m_shooter, 0.0, 0.0, 0.0));
+        m_intakeMotor.setDefaultCommand(new RunCommand(() -> m_intakeMotor.setSpeed(0.0), m_intakeMotor));
+        m_loader.setDefaultCommand(new RunCommand(() -> m_loader.setSpeed(0.0), m_loader));
+        m_shooter.setDefaultCommand(new RunCommand(() -> m_shooter.setSpeed(0.0), m_shooter));
         m_intakeExtension.setDefaultCommand(new ExtendIntake(m_intakeExtension, 0.0));
 
         //autoChooser = AutoBuilder.buildAutoChooser();
@@ -124,18 +125,16 @@ public class RobotContainer {
 
         // Reset the field-centric heading on left bumper press.
         controller.leftBumper().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
-        controller.rightBumper().onTrue(Commands.runOnce(() -> {
+        controller.x().onTrue(Commands.runOnce(() -> {
             useFieldCentric = !useFieldCentric;
             SmartDashboard.putBoolean("Field Centric", useFieldCentric);
         }));
-        joystick.povUp().whileTrue(new ShooterSetSpeed(m_shooter, m_loader, 1.0));
-        joystick.povDown().whileTrue(new IntakeSetSpeed(m_intakeMotor, 1.0));
-        joystick.povRight().whileTrue(new LoaderSetSpeed(m_loader, m_shooter, 2.4, 0.4));
-        joystick.povLeft().whileTrue(new ShooterSetSpeed(m_shooter, m_loader, -0.2));
+        joystick.button(1).whileTrue(new ShooterSetSpeed(m_shooter, m_loader, m_underShooterMotor, 1.0));
+        joystick.button(2).whileTrue(new IntakeSetSpeed(m_intakeMotor, m_loader, m_shooter, -1.0, 1.0, 0.4));
         /*joystick.button(3).whileTrue(new ClimberSetSpeed(m_climber, 1.0));
         joystick.button(4).whileTrue(new ClimberSetSpeed(m_climber, -1.0));*/
-        joystick.button(5).onTrue(new ExtendIntake(m_intakeExtension, 0.6));
-        joystick.button(6).onTrue(new ExtendIntake(m_intakeExtension, -0.6));
+        joystick.button(4).whileTrue(new ExtendIntake(m_intakeExtension, 0.1));
+        joystick.button(6).whileTrue(new ExtendIntake(m_intakeExtension, -0.15));
         //joystick.button(7).onTrue(new ClimberSetPos(m_climber, 1.0));
         //controller.povUp().whileTrue(new AlignToTag(drivetrain, robotCentric, useFieldCentric, Constants.LIMELIGHT_NAME, controller, MaxAngularRate));
 
@@ -160,9 +159,5 @@ public class RobotContainer {
         //return autoChooser.getSelected();
     //}
 
-    public void periodic() {
-        time = DriverStation.getMatchTime();
-        SmartDashboard.putNumber("Match Time", time);
-        SmartDashboard.putNumber("Match Time", time < 0 ? 0 : time);
-    }
+    public void periodic() {}
 }
