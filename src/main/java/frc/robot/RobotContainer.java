@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import frc.robot.commands.AlignToTag;
 //import frc.robot.commands.AlignToTag;
 //import frc.robot.commands.ClimberSetPos;
 //import frc.robot.commands.ClimberSetSpeed;
@@ -73,6 +74,7 @@ public class RobotContainer {
 
     public RobotContainer() {
         NamedCommands.registerCommand("Shoot balls", new ShooterSetSpeed(m_shooter, m_loader, m_underShooterMotor, 1.0));
+        NamedCommands.registerCommand("align to tag", new AlignToTag(drivetrain, robotCentric, useFieldCentric, Constants.LIMELIGHT_NAME, controller, MaxAngularRate));
         //m_climber.setDefaultCommand(new ClimberSetSpeed(m_climber, 0.0));
         m_intakeMotor.setDefaultCommand(new IntakeSetSpeed(m_intakeMotor, m_loader, m_shooter, 0.0, 0.0, 0.0));
         m_intakeMotor.setDefaultCommand(new RunCommand(() -> m_intakeMotor.setSpeed(0.0), m_intakeMotor));
@@ -85,8 +87,6 @@ public class RobotContainer {
         autoChooser = AutoBuilder.buildAutoChooser();
 
         SmartDashboard.putData("Auto Chooser", autoChooser);
-        SmartDashboard.putBoolean("Field Cenric", useFieldCentric);
-        SmartDashboard.putBoolean("Is Full Speed", fullSpeed);
 
         configureBindings();
     }
@@ -130,17 +130,15 @@ public class RobotContainer {
         controller.start().and(controller.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
         // Reset the field-centric heading on left bumper press.
-        controller.leftBumper().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
-        controller.rightBumper().onTrue(Commands.runOnce(() -> {
+        //controller.leftBumper().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
+        controller.rightBumper().and(controller.x()).onTrue(Commands.runOnce(() -> {
             useFieldCentric = !useFieldCentric;
-            SmartDashboard.putBoolean("Field Centric", useFieldCentric);
         }));
         controller.rightBumper().and(controller.b()).onTrue(Commands.runOnce(() -> {
             if(fullSpeed) {
                 MaxSpeed = 0.5 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
                 MaxAngularRate = RotationsPerSecond.of(0.25).in(RadiansPerSecond);
                 fullSpeed = !fullSpeed;
-                SmartDashboard.putBoolean("Full Speed", fullSpeed);
             } else {
                 MaxSpeed = 1 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
                 MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond);

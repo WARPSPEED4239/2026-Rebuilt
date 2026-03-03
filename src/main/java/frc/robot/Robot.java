@@ -37,6 +37,8 @@ public class Robot extends TimedRobot {
         time = DriverStation.getMatchTime();
         SmartDashboard.putNumber("Match Time", time);
         SmartDashboard.putNumber("Match Time", time < 0 ? 0 : time);
+        SmartDashboard.putBoolean("Full Speed", m_robotContainer.fullSpeed);
+        SmartDashboard.putBoolean("Field Centric", m_robotContainer.useFieldCentric);
     }
 
     @Override
