@@ -7,12 +7,14 @@ package frc.robot;
 import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
-//import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
@@ -55,6 +57,7 @@ public class RobotContainer {
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
     public boolean useFieldCentric = true;
+    public boolean fullSpeed = true;
 
     private final CommandXboxController controller = new CommandXboxController(0);
     private final CommandJoystick joystick = new CommandJoystick(1);
@@ -66,7 +69,7 @@ public class RobotContainer {
     private final Shooter m_shooter = new Shooter();
     private final UnderShooterMotor m_underShooterMotor = new UnderShooterMotor();
 
-    //private SendableChooser<Command> autoChooser;
+    private SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
         NamedCommands.registerCommand("Shoot balls", new ShooterSetSpeed(m_shooter, m_loader, m_underShooterMotor, 1.0));
@@ -77,10 +80,13 @@ public class RobotContainer {
         m_shooter.setDefaultCommand(new RunCommand(() -> m_shooter.setSpeed(0.0), m_shooter));
         m_intakeExtension.setDefaultCommand(new ExtendIntake(m_intakeExtension, 0.0));
 
-        //autoChooser = AutoBuilder.buildAutoChooser();
+        drivetrain.configureAutoBuilder();
 
-        //SmartDashboard.putData("Auto Chooser", autoChooser);
-        SmartDashboard.putBoolean("Filed Cenric", useFieldCentric);
+        autoChooser = AutoBuilder.buildAutoChooser();
+
+        SmartDashboard.putData("Auto Chooser", autoChooser);
+        SmartDashboard.putBoolean("Field Cenric", useFieldCentric);
+        SmartDashboard.putBoolean("Is Full Speed", fullSpeed);
 
         configureBindings();
     }
@@ -125,9 +131,22 @@ public class RobotContainer {
 
         // Reset the field-centric heading on left bumper press.
         controller.leftBumper().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
-        controller.x().onTrue(Commands.runOnce(() -> {
+        controller.rightBumper().onTrue(Commands.runOnce(() -> {
             useFieldCentric = !useFieldCentric;
             SmartDashboard.putBoolean("Field Centric", useFieldCentric);
+        }));
+        controller.rightBumper().and(controller.b()).onTrue(Commands.runOnce(() -> {
+            if(fullSpeed) {
+                MaxSpeed = 0.5 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
+                MaxAngularRate = RotationsPerSecond.of(0.25).in(RadiansPerSecond);
+                fullSpeed = !fullSpeed;
+                SmartDashboard.putBoolean("Full Speed", fullSpeed);
+            } else {
+                MaxSpeed = 1 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
+                MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond);
+                fullSpeed = !fullSpeed;
+                SmartDashboard.putBoolean("Full Speed", fullSpeed);
+            }
         }));
         joystick.button(1).whileTrue(new ShooterSetSpeed(m_shooter, m_loader, m_underShooterMotor, 1.0));
         joystick.button(2).whileTrue(new IntakeSetSpeed(m_intakeMotor, m_loader, m_shooter, -1.0, 1.0, 0.4));
@@ -138,10 +157,10 @@ public class RobotContainer {
         //joystick.button(7).onTrue(new ClimberSetPos(m_climber, 1.0));
         //controller.povUp().whileTrue(new AlignToTag(drivetrain, robotCentric, useFieldCentric, Constants.LIMELIGHT_NAME, controller, MaxAngularRate));
 
-        drivetrain.registerTelemetry(logger::telemeterize);
+        //drivetrain.registerTelemetry(logger::telemeterize);
     }
 
-    //public Command getAutonomousCommand() {
+    public Command getAutonomousCommand() {
         /*// Simple drive forward auton
         final var idle = new SwerveRequest.Idle();
         return Commands.sequence(
@@ -156,8 +175,8 @@ public class RobotContainer {
                 // Finally idle for the rest of auton
                 drivetrain.applyRequest(() -> idle));*/
 
-        //return autoChooser.getSelected();
-    //}
+        return autoChooser.getSelected();
+    }
 
     public void periodic() {}
 }

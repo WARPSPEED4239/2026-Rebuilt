@@ -8,11 +8,13 @@ import com.ctre.phoenix6.HootAutoReplay;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
-    //private Command m_autonomousCommand;
+    private Command m_autonomousCommand;
 
     private final RobotContainer m_robotContainer;
 
@@ -25,6 +27,7 @@ public class Robot extends TimedRobot {
 
     public Robot() {
         m_robotContainer = new RobotContainer();
+        LiveWindow.disableAllTelemetry();
     }
 
     @Override
@@ -45,14 +48,14 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledExit() {}
 
-    /*@Override
+    @Override
     public void autonomousInit() {
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
         if (m_autonomousCommand != null) {
             CommandScheduler.getInstance().schedule(m_autonomousCommand);
         }
-    }*/
+    }
 
     @Override
     public void autonomousPeriodic() {}
@@ -60,12 +63,12 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousExit() {}
 
-    /*@Override
+    @Override
      public void teleopInit() {
         if (m_autonomousCommand != null) {
             CommandScheduler.getInstance().cancel(m_autonomousCommand);
         }
-    } */
+    }
 
     @Override
     public void teleopPeriodic() {}
