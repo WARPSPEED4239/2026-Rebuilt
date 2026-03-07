@@ -28,6 +28,7 @@ import frc.robot.commands.AlignToTag;
 import frc.robot.commands.ExtendIntake;
 import frc.robot.commands.IntakeSetSpeed;
 import frc.robot.commands.ShooterSetSpeed;
+import frc.robot.commands.ShooterSetSpeedAuto;
 import frc.robot.generated.TunerConstants;
 //import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -48,7 +49,7 @@ public class RobotContainer {
             .withDeadband(MaxSpeed * 0.15).withRotationalDeadband(MaxAngularRate * 0.15) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
     public final SwerveRequest.RobotCentric robotCentric = new SwerveRequest.RobotCentric()
-            .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
+            .withDeadband(MaxSpeed * 0.15).withRotationalDeadband(-MaxAngularRate * 0.15) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
     private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
@@ -73,14 +74,13 @@ public class RobotContainer {
     private SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
-        NamedCommands.registerCommand("Shoot balls", new ShooterSetSpeed(m_shooter, m_loader, m_underShooterMotor, 1.0));
-        NamedCommands.registerCommand("align to tag", new AlignToTag(drivetrain, robotCentric, useFieldCentric, Constants.LIMELIGHT_NAME, controller, MaxAngularRate));
+        NamedCommands.registerCommand("Shoot balls", new ShooterSetSpeedAuto(m_shooter, m_loader, m_underShooterMotor, 0.8, 1.0));
         //m_climber.setDefaultCommand(new ClimberSetSpeed(m_climber, 0.0));
-        m_intakeMotor.setDefaultCommand(new IntakeSetSpeed(m_intakeMotor, m_loader, m_shooter, 0.0, 0.0, 0.0));
         m_intakeMotor.setDefaultCommand(new RunCommand(() -> m_intakeMotor.setSpeed(0.0), m_intakeMotor));
         m_loader.setDefaultCommand(new RunCommand(() -> m_loader.setSpeed(0.0), m_loader));
         m_shooter.setDefaultCommand(new RunCommand(() -> m_shooter.setSpeed(0.0), m_shooter));
         m_intakeExtension.setDefaultCommand(new ExtendIntake(m_intakeExtension, 0.0));
+        m_underShooterMotor.setDefaultCommand(new RunCommand(() -> m_underShooterMotor.setSpeed(0.0), m_underShooterMotor));
 
         drivetrain.configureAutoBuilder();
 
@@ -146,14 +146,21 @@ public class RobotContainer {
                 SmartDashboard.putBoolean("Full Speed", fullSpeed);
             }
         }));
-        joystick.button(1).whileTrue(new ShooterSetSpeed(m_shooter, m_loader, m_underShooterMotor, 1.0));
-        joystick.button(2).whileTrue(new IntakeSetSpeed(m_intakeMotor, m_loader, m_shooter, -1.0, 1.0, 0.4));
+        joystick.button(1).whileTrue(new ShooterSetSpeed(m_shooter, m_loader, 1.0, 1.0));
+        joystick.button(8).whileTrue(new ShooterSetSpeed(m_shooter, m_loader, .5, 1.0));
+        joystick.button(2).whileTrue(new IntakeSetSpeed(m_intakeMotor, m_loader, m_underShooterMotor, -1.0, 1.0, -0.4));
+        joystick.povUp().whileTrue(new RunCommand(() -> m_underShooterMotor.setSpeed(-1.0), m_underShooterMotor));
         /*joystick.button(3).whileTrue(new ClimberSetSpeed(m_climber, 1.0));
         joystick.button(4).whileTrue(new ClimberSetSpeed(m_climber, -1.0));*/
         joystick.button(4).whileTrue(new ExtendIntake(m_intakeExtension, 0.1));
         joystick.button(6).whileTrue(new ExtendIntake(m_intakeExtension, -0.15));
         //joystick.button(7).onTrue(new ClimberSetPos(m_climber, 1.0));
         //controller.povUp().whileTrue(new AlignToTag(drivetrain, robotCentric, useFieldCentric, Constants.LIMELIGHT_NAME, controller, MaxAngularRate));
+        joystick.button(12).whileTrue(new RunCommand(() -> m_intakeMotor.setSpeed(-1.0), m_intakeMotor));
+        joystick.button(11).whileTrue(new RunCommand(() -> m_shooter.setSpeed(-1.0), m_shooter));
+        joystick.button(10).whileTrue(new RunCommand(() -> m_loader.setSpeed(-1.0), m_loader));
+        joystick.povDown().whileTrue(new RunCommand(() -> m_underShooterMotor.setSpeed(1.0), m_underShooterMotor));
+
 
         //drivetrain.registerTelemetry(logger::telemeterize);
     }
