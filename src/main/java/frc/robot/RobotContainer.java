@@ -33,7 +33,6 @@ import frc.robot.generated.TunerConstants;
 //import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.IntakeMotor;
-import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.IntakeExtension;
 import frc.robot.subsystems.Loader;
 import frc.robot.subsystems.Shooter;
@@ -47,10 +46,10 @@ public class RobotContainer {
 
     /* Setting up bindings for necessary control of the swerve drive platform */
     public final SwerveRequest.FieldCentric fieldCentric = new SwerveRequest.FieldCentric()
-            .withDeadband(MaxSpeed * 0.2).withRotationalDeadband(MaxAngularRate * 0.2) // Add a 10% deadband
+            .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
     public final SwerveRequest.RobotCentric robotCentric = new SwerveRequest.RobotCentric()
-            .withDeadband(MaxSpeed * 0.15).withRotationalDeadband(-MaxAngularRate * 0.15) // Add a 10% deadband
+            .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(-MaxAngularRate * 0.1) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
     private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
@@ -71,7 +70,6 @@ public class RobotContainer {
     private final Loader m_loader = new Loader();
     private final Shooter m_shooter = new Shooter();
     private final UnderShooterMotor m_underShooterMotor = new UnderShooterMotor();
-    private final Limelight m_limelight = new Limelight();
 
     private SendableChooser<Command> autoChooser;
 
@@ -150,11 +148,11 @@ public class RobotContainer {
             }
         }));
         joystick.button(1).whileTrue(new ShooterSetSpeed(m_shooter, m_loader, 1.0, 1.0));
-        joystick.button(8).whileTrue(new ShooterSetSpeed(m_shooter, m_loader, .2, 1.0));
+        joystick.button(8).whileTrue(new ShooterSetSpeed(m_shooter, m_loader, .75, 1.0));
         joystick.button(2).whileTrue(new IntakeSetSpeed(m_intakeMotor, m_loader, m_underShooterMotor, -1.0, 1.0, -0.4));
         joystick.povUp().whileTrue(new RunCommand(() -> m_underShooterMotor.setSpeed(-1.0), m_underShooterMotor));
         //joystick.button(5).onTrue(new AlignToTagPose(drivetrain));
-        joystick.button(5).whileTrue(new LimelightTest(m_limelight, drivetrain, controller, MaxSpeed, MaxAngularRate));
+        joystick.button(5).whileTrue(new LimelightTest(drivetrain, controller, MaxSpeed, MaxAngularRate));
         //joystick.button(3).onTrue(new RunCommand(null, null));
         joystick.button(4).whileTrue(new ExtendIntake(m_intakeExtension, 0.1));
         joystick.button(6).whileTrue(new ExtendIntake(m_intakeExtension, -0.15));

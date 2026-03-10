@@ -37,6 +37,6 @@ public final class Constants {
 
   public static final String
     CANIVORE_BUS = "DriveTrain",
-    LIMELIGHT_NAME = "limelight-coral";
+    LIMELIGHT_NAME = "limelight-climber";
   
 }
