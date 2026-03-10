@@ -55,7 +55,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private Pose2d visionPose = (alliance == Alliance.Blue)
     ? LimelightHelpers.getBotPose2d_wpiBlue(Constants.LIMELIGHT_NAME)
     : LimelightHelpers.getBotPose2d_wpiRed(Constants.LIMELIGHT_NAME);
-    private double latencyMs = LimelightHelpers.getLatency_Pipeline(Constants.LIMELIGHT_NAME + LimelightHelpers.getLatency_Capture(Constants.LIMELIGHT_NAME));
+    private double latencyMs = LimelightHelpers.getLatency_Pipeline(Constants.LIMELIGHT_NAME) + LimelightHelpers.getLatency_Capture(Constants.LIMELIGHT_NAME);
     private double timestamp = Timer.getFPGATimestamp() - (latencyMs / 1000.0);
     private double[] botPose = LimelightHelpers.getBotPose(Constants.LIMELIGHT_NAME);
     private final SwerveRequest.ApplyRobotSpeeds m_pathApplyRobotSpeeds = new SwerveRequest.ApplyRobotSpeeds();

@@ -12,16 +12,31 @@ public class Limelight extends SubsystemBase {
 
   public Limelight() {}
 
-  public double GetLeftRightSpeed(double maxDriveSpeed, double TXWithOffset) {
+  public double GetLeftRightSpeed(double maxDriveSpeed, double tx) {
 
-    return -TXWithOffset * KpSIDE * maxDriveSpeed;
-  }
+    double kP = 0.05;
+
+    double speed = -tx * kP;
+
+    speed *= maxDriveSpeed;
+
+    // minimum speed so robot actually moves
+    if (Math.abs(speed) < 0.1 && Math.abs(tx) > 0.5) {
+        speed = Math.copySign(0.1, speed);
+    }
+
+    // clamp
+    speed = Math.max(-maxDriveSpeed, Math.min(maxDriveSpeed, speed));
+
+    return speed;
+}
 
   public double getTX() {
     return ClimberLimelight.getTX(Constants.LIMELIGHT_NAME);
   }
 
   public double getTA() {
+    if(!ClimberLimelight.getTV(Constants.LIMELIGHT_NAME)) return;
     return ClimberLimelight.getTA(Constants.LIMELIGHT_NAME);
   }
 

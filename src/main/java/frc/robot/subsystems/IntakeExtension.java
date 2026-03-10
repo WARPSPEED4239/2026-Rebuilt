@@ -1,11 +1,13 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 
+import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -39,6 +41,10 @@ public class IntakeExtension extends SubsystemBase {
 
     public void stopMotor() {
         mIntakeExtensionMotor.stopMotor();
+    }
+
+    public void goUp(double volts) {
+        mIntakeExtensionMotor.setControl(new VoltageOut(volts));
     }
 
     @Override

@@ -21,18 +21,19 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-import frc.robot.commands.AlignToTag;
-//import frc.robot.commands.AlignToTag;
+//import frc.robot.commands.AlignToTagPose;
 //import frc.robot.commands.ClimberSetPos;
 //import frc.robot.commands.ClimberSetSpeed;
 import frc.robot.commands.ExtendIntake;
 import frc.robot.commands.IntakeSetSpeed;
+import frc.robot.commands.LimelightTest;
 import frc.robot.commands.ShooterSetSpeed;
 import frc.robot.commands.ShooterSetSpeedAuto;
 import frc.robot.generated.TunerConstants;
 //import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.IntakeMotor;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.IntakeExtension;
 import frc.robot.subsystems.Loader;
 import frc.robot.subsystems.Shooter;
@@ -46,7 +47,7 @@ public class RobotContainer {
 
     /* Setting up bindings for necessary control of the swerve drive platform */
     public final SwerveRequest.FieldCentric fieldCentric = new SwerveRequest.FieldCentric()
-            .withDeadband(MaxSpeed * 0.15).withRotationalDeadband(MaxAngularRate * 0.15) // Add a 10% deadband
+            .withDeadband(MaxSpeed * 0.2).withRotationalDeadband(MaxAngularRate * 0.2) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
     public final SwerveRequest.RobotCentric robotCentric = new SwerveRequest.RobotCentric()
             .withDeadband(MaxSpeed * 0.15).withRotationalDeadband(-MaxAngularRate * 0.15) // Add a 10% deadband
@@ -70,16 +71,18 @@ public class RobotContainer {
     private final Loader m_loader = new Loader();
     private final Shooter m_shooter = new Shooter();
     private final UnderShooterMotor m_underShooterMotor = new UnderShooterMotor();
+    private final Limelight m_limelight = new Limelight();
 
     private SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
         NamedCommands.registerCommand("Shoot balls", new ShooterSetSpeedAuto(m_shooter, m_loader, m_underShooterMotor, 0.8, 1.0));
+        //NamedCommands.registerCommand("Align to tag", new AlignToTag(drivetrain, robotCentric, useFieldCentric, Constants.LIMELIGHT_NAME, controller, MaxAngularRate));
         //m_climber.setDefaultCommand(new ClimberSetSpeed(m_climber, 0.0));
         m_intakeMotor.setDefaultCommand(new RunCommand(() -> m_intakeMotor.setSpeed(0.0), m_intakeMotor));
         m_loader.setDefaultCommand(new RunCommand(() -> m_loader.setSpeed(0.0), m_loader));
         m_shooter.setDefaultCommand(new RunCommand(() -> m_shooter.setSpeed(0.0), m_shooter));
-        m_intakeExtension.setDefaultCommand(new ExtendIntake(m_intakeExtension, 0.0));
+        m_intakeExtension.setDefaultCommand(new RunCommand(() -> m_intakeExtension.goUp(-0.1), m_intakeExtension));
         m_underShooterMotor.setDefaultCommand(new RunCommand(() -> m_underShooterMotor.setSpeed(0.0), m_underShooterMotor));
 
         drivetrain.configureAutoBuilder();
@@ -147,11 +150,12 @@ public class RobotContainer {
             }
         }));
         joystick.button(1).whileTrue(new ShooterSetSpeed(m_shooter, m_loader, 1.0, 1.0));
-        joystick.button(8).whileTrue(new ShooterSetSpeed(m_shooter, m_loader, .5, 1.0));
+        joystick.button(8).whileTrue(new ShooterSetSpeed(m_shooter, m_loader, .2, 1.0));
         joystick.button(2).whileTrue(new IntakeSetSpeed(m_intakeMotor, m_loader, m_underShooterMotor, -1.0, 1.0, -0.4));
         joystick.povUp().whileTrue(new RunCommand(() -> m_underShooterMotor.setSpeed(-1.0), m_underShooterMotor));
-        /*joystick.button(3).whileTrue(new ClimberSetSpeed(m_climber, 1.0));
-        joystick.button(4).whileTrue(new ClimberSetSpeed(m_climber, -1.0));*/
+        //joystick.button(5).onTrue(new AlignToTagPose(drivetrain));
+        joystick.button(5).whileTrue(new LimelightTest(m_limelight, drivetrain, controller, MaxSpeed, MaxAngularRate));
+        //joystick.button(3).onTrue(new RunCommand(null, null));
         joystick.button(4).whileTrue(new ExtendIntake(m_intakeExtension, 0.1));
         joystick.button(6).whileTrue(new ExtendIntake(m_intakeExtension, -0.15));
         //joystick.button(7).onTrue(new ClimberSetPos(m_climber, 1.0));
@@ -166,20 +170,6 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        /*// Simple drive forward auton
-        final var idle = new SwerveRequest.Idle();
-        return Commands.sequence(
-                // Reset our field centric heading to match the robot
-                // facing away from our alliance station wall (0 deg).
-                drivetrain.runOnce(() -> drivetrain.seedFieldCentric(Rotation2d.kZero)),
-                // Then slowly drive forward (away from us) for 5 seconds.
-                drivetrain.applyRequest(() -> fieldCentric.withVelocityX(0.5)
-                        .withVelocityY(0)
-                        .withRotationalRate(0))
-                        .withTimeout(5.0),
-                // Finally idle for the rest of auton
-                drivetrain.applyRequest(() -> idle));*/
-
         return autoChooser.getSelected();
     }
 
