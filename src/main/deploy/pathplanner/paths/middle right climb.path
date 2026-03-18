@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.223333333333333,
-        "y": 4.0511387900315405
+        "x": 3.2417192982456142,
+        "y": 4.934043859653101
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.7539210526276001,
-        "y": 2.8813596491228064
+        "x": 3.2815,
+        "y": 4.2498157894736845
       },
       "isLocked": false,
-      "linkedName": "Middle path 1 end"
+      "linkedName": "end get balls M"
     },
     {
       "anchor": {
-        "x": 1.0537807017543859,
-        "y": 2.571070175438598
+        "x": 1.0378684210526317,
+        "y": 2.6506315789473693
       },
       "prevControl": {
-        "x": 1.4595438596451442,
-        "y": 2.7301929824561397
+        "x": 2.414280701754386,
+        "y": 2.3880789473684216
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,22 +33,22 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 1.0,
-    "maxAcceleration": 1.0,
-    "maxAngularVelocity": 200.0,
-    "maxAngularAcceleration": 250.0,
+    "maxVelocity": 2.0,
+    "maxAcceleration": 2.0,
+    "maxAngularVelocity": 400.0,
+    "maxAngularAcceleration": 500.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": -90.0
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 144.63363739740436
   },
   "useDefaultConstraints": true
 }

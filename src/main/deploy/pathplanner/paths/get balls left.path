@@ -1,0 +1,120 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.0905526315789467,
+        "y": 4.997692982456141
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.0960350877214005,
+        "y": 5.236377192981582
+      },
+      "isLocked": false,
+      "linkedName": "end L start"
+    },
+    {
+      "anchor": {
+        "x": 0.4650263157854956,
+        "y": 4.934043859653101
+      },
+      "prevControl": {
+        "x": 0.49620622759185595,
+        "y": 4.669014609299556
+      },
+      "nextControl": {
+        "x": 0.22634210525917997,
+        "y": 6.962859649122808
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.6131842105223377,
+        "y": 6.254763157894737
+      },
+      "prevControl": {
+        "x": 1.8573508771890046,
+        "y": 7.082201754385965
+      },
+      "nextControl": {
+        "x": 2.956015745076951,
+        "y": 5.879452846382319
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.2417192982456142,
+        "y": 4.934043859653101
+      },
+      "prevControl": {
+        "x": 2.971210526311811,
+        "y": 5.610315789473685
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "end get balls L"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": 90.0
+    },
+    {
+      "waypointRelativePos": 1.2,
+      "rotationDegrees": 90.0
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "Extend",
+      "waypointRelativePos": 0.7852697095435639,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "Intake",
+      "waypointRelativePos": 0.9719917012448129,
+      "endWaypointRelativePos": 1.2,
+      "command": null
+    },
+    {
+      "name": "Stop Intake",
+      "waypointRelativePos": 1.35,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "Retract",
+      "waypointRelativePos": 1.55,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 2.0,
+    "maxAcceleration": 2.0,
+    "maxAngularVelocity": 400.0,
+    "maxAngularAcceleration": 500.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 144.63363739740436
+  },
+  "reversed": false,
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 143.97262661489637
+  },
+  "useDefaultConstraints": true
+}

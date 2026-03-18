@@ -7,13 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "middle 1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Extend"
+            "pathName": "right start"
           }
         },
         {
@@ -23,9 +17,21 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "get balls right"
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "Retract"
+            "name": "Shoot balls"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "right climb"
           }
         }
       ]

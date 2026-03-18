@@ -7,13 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "middle 1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Extend"
+            "pathName": "middle start"
           }
         },
         {
@@ -23,45 +17,15 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Retract"
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "get balls from players"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 5.0
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "go back from players"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Extend"
+            "pathName": "get balls middle"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "Shoot balls"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Retract"
           }
         },
         {

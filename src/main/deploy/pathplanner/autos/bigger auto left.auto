@@ -7,13 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "left 1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "align"
+            "pathName": "left start"
           }
         },
         {
@@ -25,7 +19,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "left 2"
+            "pathName": "get balls left"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot balls"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "left climb"
           }
         }
       ]

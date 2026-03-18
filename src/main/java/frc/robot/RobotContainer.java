@@ -32,6 +32,7 @@ import frc.robot.commands.IntakeSetSpeed;
 import frc.robot.commands.LimelightTest;
 import frc.robot.commands.ShooterSetSpeed;
 import frc.robot.commands.ShooterSetSpeedAuto;
+import frc.robot.commands.StopIntake;
 import frc.robot.generated.TunerConstants;
 //import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -82,7 +83,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("Align", new LimelightTest(drivetrain, controller, MaxSpeed, MaxAngularRate));
         NamedCommands.registerCommand("Extend", new AutoExtendIntake(m_intakeExtension, 0.15));
         NamedCommands.registerCommand("Retract", new AutoExtendIntake(m_intakeExtension, -0.20));
-        NamedCommands.registerCommand("Intake", new AutoIntakeSetSpeed(m_intakeMotor, m_loader, m_underShooterMotor, -1.0, 1.0, -0.4).withTimeout(5));
+        NamedCommands.registerCommand("Intake", new AutoIntakeSetSpeed(m_intakeMotor, m_loader, m_underShooterMotor, -1.0, 1.0, -0.4));
+        NamedCommands.registerCommand("Stop Intake", new StopIntake(m_intakeMotor, m_loader, m_underShooterMotor));
         //m_climber.setDefaultCommand(new ClimberSetSpeed(m_climber, 0.0));
         m_intakeMotor.setDefaultCommand(new RunCommand(() -> m_intakeMotor.setSpeed(0.0), m_intakeMotor));
         m_loader.setDefaultCommand(new RunCommand(() -> m_loader.setSpeed(0.0), m_loader));
