@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.Limelight;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class LimelightTest extends Command {
@@ -17,6 +18,7 @@ public class LimelightTest extends Command {
 
   private double maxSpeed;
   private double maxAngularRate;
+  private boolean mEnd;
 
   private final CommandXboxController controller;
   private final CommandSwerveDrivetrain drive;
@@ -37,27 +39,28 @@ public class LimelightTest extends Command {
   }
 
   public double limelightAimProportional() {
-        double kp = 0.1;
+        double kp = 0.07;
         double tx = LimelightHelpers.getTX(limelight);
-        double offset = 2.5;
+        double offset = 0;
         double targetingAngularVelocity = (tx + offset) * kp;
         targetingAngularVelocity *= maxAngularRate;
         return targetingAngularVelocity;
     }
 
   public double limelightRangeProportional() {
-        double kp = 0.1;
-        double ta = LimelightHelpers.getTA(limelight);
-        double offset = -0.; // -0.218
-        double targetingRangeVelocity = (ta + offset) * kp;
+        double kp = 0.06;
+        double ty = LimelightHelpers.getTY(limelight);
+        double offset = 4.7;
+        double targetingRangeVelocity = (ty + offset) * kp;
         targetingRangeVelocity *= maxSpeed;
-        targetingRangeVelocity *= -1.0;
-        SmartDashboard.putNumber("limelight ta", ta);
+        targetingRangeVelocity *= 1.0;
         return targetingRangeVelocity;
     }
 
   @Override
-  public void initialize() {}
+  public void initialize() {
+    mEnd = false;
+  }
 
   @Override
   public void execute() {
@@ -70,6 +73,10 @@ public class LimelightTest extends Command {
         .withRotationalRate(limelightAimProportional()));
     }
 
+    if(limelightRangeProportional() > -0.5 && limelightRangeProportional() < 0.5 && limelightAimProportional() > -0.5 && limelightAimProportional() < 0.5 && LimelightHelpers.getTV(limelight)) {
+      mEnd = true;
+    }
+
     SmartDashboard.putNumber("Aim Proportional", limelightAimProportional());
     SmartDashboard.putNumber("Range Proportional", limelightRangeProportional());
   }
@@ -79,6 +86,9 @@ public class LimelightTest extends Command {
 
   @Override
   public boolean isFinished() {
+    if(mEnd) {
+      return true;
+    }
     return false;
   }
 }

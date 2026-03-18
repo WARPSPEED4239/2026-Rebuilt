@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.5574733096139397,
+        "x": 2.223333333333333,
         "y": 4.0511387900315405
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.2346975089021957,
-        "y": 4.0511387900315405
+        "x": 2.0801228070175437,
+        "y": 4.679447368421054
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Middle path 1 end"
     },
     {
       "anchor": {
-        "x": 2.223333333333333,
-        "y": 4.0511387900315405
+        "x": 1.547061403508772,
+        "y": 5.658052631578949
       },
       "prevControl": {
-        "x": 2.5353499406880187,
-        "y": 4.040379596674482
+        "x": 2.0164736842105264,
+        "y": 5.562578947368422
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Middle path 1 end"
+      "linkedName": "get balls from player end"
     }
   ],
   "rotationTargets": [],
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -179.40934278535332
   },
   "reversed": false,
   "folder": null,

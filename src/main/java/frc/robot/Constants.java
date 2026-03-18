@@ -33,6 +33,7 @@ public final class Constants {
     PIGEON_ID = 13;
 
   public static final double
+    COUNT_PER_REV = 2048,
     CLIMBER_TOP_LIMIT = 100;
 
   public static final String

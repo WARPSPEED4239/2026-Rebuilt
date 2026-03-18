@@ -12,6 +12,7 @@ public class ShooterSetSpeedAuto extends Command {
     private final UnderShooterMotor mUnderShooterMotor;
     private double msSpeed;
     private double mlSpeed;
+    private double muSpeed;
     private boolean mEnd;
 
     /**
@@ -19,12 +20,13 @@ public class ShooterSetSpeedAuto extends Command {
      * @param Loader
      */
 
-    public ShooterSetSpeedAuto(Shooter shooter, Loader loader, UnderShooterMotor underShooterMotor, double sSpeed, double lSpeed) {
+    public ShooterSetSpeedAuto(Shooter shooter, Loader loader, UnderShooterMotor underShooterMotor, double sSpeed, double lSpeed, double uSpeed) {
         mShooterMotor = shooter;
         mLoaderMotor = loader;
         mUnderShooterMotor = underShooterMotor;
         msSpeed = sSpeed;
         mlSpeed = lSpeed;
+        muSpeed = uSpeed;
         addRequirements(mShooterMotor, mLoaderMotor, mUnderShooterMotor);
     }
 
@@ -36,7 +38,7 @@ public class ShooterSetSpeedAuto extends Command {
         mShooterMotor.setSpeed(msSpeed);
         mLoaderMotor.setSpeed(mlSpeed);
         Timer.delay(.75);
-        mUnderShooterMotor.setSpeed(mlSpeed);
+        mUnderShooterMotor.setSpeed(muSpeed);
         Timer.delay(5);
         mEnd = true;
 

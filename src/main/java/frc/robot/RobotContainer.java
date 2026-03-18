@@ -11,6 +11,8 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,7 +23,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-//import frc.robot.commands.AlignToTagPose;
+import frc.robot.commands.AutoExtendIntake;
+import frc.robot.commands.AutoIntakeSetSpeed;
 //import frc.robot.commands.ClimberSetPos;
 //import frc.robot.commands.ClimberSetSpeed;
 import frc.robot.commands.ExtendIntake;
@@ -72,10 +75,14 @@ public class RobotContainer {
     private final UnderShooterMotor m_underShooterMotor = new UnderShooterMotor();
 
     private SendableChooser<Command> autoChooser;
+    private SendableChooser<Double> rpmChooser = new SendableChooser<>();
 
     public RobotContainer() {
-        NamedCommands.registerCommand("Shoot balls", new ShooterSetSpeedAuto(m_shooter, m_loader, m_underShooterMotor, 0.8, 1.0));
-        //NamedCommands.registerCommand("Align to tag", new AlignToTag(drivetrain, robotCentric, useFieldCentric, Constants.LIMELIGHT_NAME, controller, MaxAngularRate));
+        NamedCommands.registerCommand("Shoot balls", new ShooterSetSpeedAuto(m_shooter, m_loader, m_underShooterMotor, 0.83, 1.0, -1.0));
+        NamedCommands.registerCommand("Align", new LimelightTest(drivetrain, controller, MaxSpeed, MaxAngularRate));
+        NamedCommands.registerCommand("Extend", new AutoExtendIntake(m_intakeExtension, 0.15));
+        NamedCommands.registerCommand("Retract", new AutoExtendIntake(m_intakeExtension, -0.20));
+        NamedCommands.registerCommand("Intake", new AutoIntakeSetSpeed(m_intakeMotor, m_loader, m_underShooterMotor, -1.0, 1.0, -0.4).withTimeout(5));
         //m_climber.setDefaultCommand(new ClimberSetSpeed(m_climber, 0.0));
         m_intakeMotor.setDefaultCommand(new RunCommand(() -> m_intakeMotor.setSpeed(0.0), m_intakeMotor));
         m_loader.setDefaultCommand(new RunCommand(() -> m_loader.setSpeed(0.0), m_loader));
@@ -86,8 +93,15 @@ public class RobotContainer {
         drivetrain.configureAutoBuilder();
 
         autoChooser = AutoBuilder.buildAutoChooser();
+        rpmChooser.setDefaultOption("off", 0.0);
+        addRPMOptions(1000.0, 2000.0, 3000.0, 4000.0);
 
         SmartDashboard.putData("Auto Chooser", autoChooser);
+        SmartDashboard.putData("RPM Chooser", rpmChooser);
+
+        UsbCamera mainCamera = CameraServer.startAutomaticCapture();
+        mainCamera.setResolution(320, 240);
+        mainCamera.setFPS(10);
 
         configureBindings();
     }
@@ -147,9 +161,15 @@ public class RobotContainer {
                 SmartDashboard.putBoolean("Full Speed", fullSpeed);
             }
         }));
-        joystick.button(1).whileTrue(new ShooterSetSpeed(m_shooter, m_loader, 1.0, 1.0));
-        joystick.button(8).whileTrue(new ShooterSetSpeed(m_shooter, m_loader, .75, 1.0));
+        //joystick.button(1).whileTrue(new ShooterSetSpeed(m_shooter, m_loader, 1.0, 1.0));
+        joystick.button(1).whileTrue(new ShooterSetSpeed(m_shooter, m_loader, .85, 0.75));
+        joystick.button(8).whileTrue(new RunCommand(() -> m_shooter.setVelocity(rpmChooser.getSelected())));
         joystick.button(2).whileTrue(new IntakeSetSpeed(m_intakeMotor, m_loader, m_underShooterMotor, -1.0, 1.0, -0.4));
+        joystick.button(3).whileTrue(new IntakeSetSpeed(m_intakeMotor, m_loader, m_underShooterMotor, 1.0, -1.0, 0.4));
+
+        // joystick.button(2).onTrue(new AutoExtendIntake(m_intakeExtension, 0.1));
+        // joystick.button(3).onTrue(new AutoExtendIntake(m_intakeExtension, -0.15));
+
         joystick.povUp().whileTrue(new RunCommand(() -> m_underShooterMotor.setSpeed(-1.0), m_underShooterMotor));
         //joystick.button(5).onTrue(new AlignToTagPose(drivetrain));
         joystick.button(5).whileTrue(new LimelightTest(drivetrain, controller, MaxSpeed, MaxAngularRate));
@@ -157,7 +177,6 @@ public class RobotContainer {
         joystick.button(4).whileTrue(new ExtendIntake(m_intakeExtension, 0.1));
         joystick.button(6).whileTrue(new ExtendIntake(m_intakeExtension, -0.15));
         //joystick.button(7).onTrue(new ClimberSetPos(m_climber, 1.0));
-        //controller.povUp().whileTrue(new AlignToTag(drivetrain, robotCentric, useFieldCentric, Constants.LIMELIGHT_NAME, controller, MaxAngularRate));
         joystick.button(12).whileTrue(new RunCommand(() -> m_intakeMotor.setSpeed(-1.0), m_intakeMotor));
         joystick.button(11).whileTrue(new RunCommand(() -> m_shooter.setSpeed(-1.0), m_shooter));
         joystick.button(10).whileTrue(new RunCommand(() -> m_loader.setSpeed(-1.0), m_loader));
@@ -169,6 +188,12 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
         return autoChooser.getSelected();
+    }
+
+    private void addRPMOptions(double... values) {
+        for (double v : values) {
+            rpmChooser.addOption(String.valueOf((int) v), v);
+        }
     }
 
     public void periodic() {}

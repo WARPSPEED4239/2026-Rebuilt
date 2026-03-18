@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "left 1"
+            "pathName": "middle 1"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "align"
+            "name": "Extend"
           }
         },
         {
@@ -23,9 +23,9 @@
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "left 2"
+            "name": "Retract"
           }
         }
       ]

@@ -1,0 +1,79 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "middle 1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Extend"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot balls"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Retract"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "get balls from players"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 5.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "go back from players"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Extend"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot balls"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Retract"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "middle right climb"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

@@ -16,24 +16,19 @@
     },
     {
       "anchor": {
-        "x": 3.0,
-        "y": 4.059
+        "x": 2.955298245614035,
+        "y": 5.005649122807017
       },
       "prevControl": {
-        "x": 3.0674578233291285,
-        "y": 4.299726903506227
+        "x": 3.0227560689431634,
+        "y": 5.246376026313244
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Path 2 Start"
+      "linkedName": "left 2 start"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 1,
-      "rotationDegrees": 180.0
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -47,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 146.63470202681776
   },
   "reversed": false,
   "folder": null,

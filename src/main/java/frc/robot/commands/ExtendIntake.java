@@ -23,4 +23,8 @@ public class ExtendIntake extends Command {
     public void execute() {
         mIntakeExtension.setSpeed(mSpeed);
     }
+
+    public boolean isFinished() {
+        return false;
+    }
 }
