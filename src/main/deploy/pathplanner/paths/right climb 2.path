@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.2417192982456142,
+        "x": 1.0655340909090907,
         "y": 4.934043859653101
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.096035087719298,
-        "y": 4.894263157894738
+        "x": 1.080020908569568,
+        "y": 4.684463948374024
       },
       "isLocked": false,
-      "linkedName": "end get balls R"
+      "linkedName": "go to climb R end"
     },
     {
       "anchor": {
         "x": 1.0655340909090907,
-        "y": 4.934043859653101
+        "y": 4.818318181818182
       },
       "prevControl": {
-        "x": 1.980490231259967,
-        "y": 4.934043859649123
+        "x": 1.032493160886336,
+        "y": 5.066125156988841
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "go to climb R end"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -48,7 +48,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 144.63363739740436
+    "rotation": 90.0
   },
   "useDefaultConstraints": true
 }

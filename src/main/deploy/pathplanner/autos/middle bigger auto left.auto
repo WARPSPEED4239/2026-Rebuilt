@@ -31,7 +31,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "middle left climb"
+            "pathName": "middle right climb"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Climber up"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "right climb 2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Climber down"
           }
         }
       ]

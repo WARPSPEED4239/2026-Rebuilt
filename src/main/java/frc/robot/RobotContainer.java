@@ -25,8 +25,8 @@ import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.AutoExtendIntake;
 import frc.robot.commands.AutoIntakeSetSpeed;
-//import frc.robot.commands.ClimberSetPos;
-//import frc.robot.commands.ClimberSetSpeed;
+import frc.robot.commands.ClimberSetPos;
+import frc.robot.commands.ClimberSetSpeed;
 import frc.robot.commands.ExtendIntake;
 import frc.robot.commands.IntakeSetSpeed;
 import frc.robot.commands.LimelightTest;
@@ -34,7 +34,7 @@ import frc.robot.commands.ShooterSetSpeed;
 import frc.robot.commands.ShooterSetSpeedAuto;
 import frc.robot.commands.StopIntake;
 import frc.robot.generated.TunerConstants;
-//import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.IntakeMotor;
 import frc.robot.subsystems.IntakeExtension;
@@ -43,9 +43,9 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.UnderShooterMotor;
 
 public class RobotContainer {
-    private double MaxSpeed = 0.5 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top 1
+    private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top 1
                                                                                         // speed
-    private double MaxAngularRate = RotationsPerSecond.of(0.25).in(RadiansPerSecond); // 3/4 of a rotation per second .75
+    private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second .75
                                                                                       // max angular velocity
 
     /* Setting up bindings for necessary control of the swerve drive platform */
@@ -68,7 +68,7 @@ public class RobotContainer {
     private final CommandXboxController controller = new CommandXboxController(0);
     private final CommandJoystick joystick = new CommandJoystick(1);
 
-    //private final Climber m_climber = new Climber();
+    private final Climber m_climber = new Climber();
     private final IntakeExtension m_intakeExtension = new IntakeExtension();
     private final IntakeMotor m_intakeMotor = new IntakeMotor();
     private final Loader m_loader = new Loader();
@@ -85,7 +85,10 @@ public class RobotContainer {
         NamedCommands.registerCommand("Retract", new AutoExtendIntake(m_intakeExtension, -0.20));
         NamedCommands.registerCommand("Intake", new AutoIntakeSetSpeed(m_intakeMotor, m_loader, m_underShooterMotor, -1.0, 1.0, -0.4));
         NamedCommands.registerCommand("Stop Intake", new StopIntake(m_intakeMotor, m_loader, m_underShooterMotor));
-        //m_climber.setDefaultCommand(new ClimberSetSpeed(m_climber, 0.0));
+        NamedCommands.registerCommand("Climber up", new ClimberSetPos(m_climber, 20.0));
+        NamedCommands.registerCommand("Climber down", new ClimberSetPos(m_climber, 0.0));
+
+        m_climber.setDefaultCommand(new RunCommand(() -> m_climber.setSpeed(0.0), m_climber));
         m_intakeMotor.setDefaultCommand(new RunCommand(() -> m_intakeMotor.setSpeed(0.0), m_intakeMotor));
         m_loader.setDefaultCommand(new RunCommand(() -> m_loader.setSpeed(0.0), m_loader));
         m_shooter.setDefaultCommand(new RunCommand(() -> m_shooter.setSpeed(0.0), m_shooter));
@@ -163,22 +166,17 @@ public class RobotContainer {
                 SmartDashboard.putBoolean("Full Speed", fullSpeed);
             }
         }));
-        //joystick.button(1).whileTrue(new ShooterSetSpeed(m_shooter, m_loader, 1.0, 1.0));
         joystick.button(1).whileTrue(new ShooterSetSpeed(m_shooter, m_loader, .85, 0.75));
         joystick.button(8).whileTrue(new RunCommand(() -> m_shooter.setVelocity(rpmChooser.getSelected())));
         joystick.button(2).whileTrue(new IntakeSetSpeed(m_intakeMotor, m_loader, m_underShooterMotor, -1.0, 1.0, -0.4));
         joystick.button(3).whileTrue(new IntakeSetSpeed(m_intakeMotor, m_loader, m_underShooterMotor, 1.0, -1.0, 0.4));
 
-        // joystick.button(2).onTrue(new AutoExtendIntake(m_intakeExtension, 0.1));
-        // joystick.button(3).onTrue(new AutoExtendIntake(m_intakeExtension, -0.15));
-
         joystick.povUp().whileTrue(new RunCommand(() -> m_underShooterMotor.setSpeed(-1.0), m_underShooterMotor));
-        //joystick.button(5).onTrue(new AlignToTagPose(drivetrain));
         joystick.button(5).whileTrue(new LimelightTest(drivetrain, controller, MaxSpeed, MaxAngularRate));
-        //joystick.button(3).onTrue(new RunCommand(null, null));
         joystick.button(4).whileTrue(new ExtendIntake(m_intakeExtension, 0.1));
         joystick.button(6).whileTrue(new ExtendIntake(m_intakeExtension, -0.15));
-        //joystick.button(7).onTrue(new ClimberSetPos(m_climber, 1.0));
+        joystick.button(7).onTrue(new ClimberSetPos(m_climber, 1.0));
+        joystick.button(5).onTrue(new ClimberSetSpeed(m_climber, 0.25));
         joystick.button(12).whileTrue(new RunCommand(() -> m_intakeMotor.setSpeed(-1.0), m_intakeMotor));
         joystick.button(11).whileTrue(new RunCommand(() -> m_shooter.setSpeed(-1.0), m_shooter));
         joystick.button(10).whileTrue(new RunCommand(() -> m_loader.setSpeed(-1.0), m_loader));

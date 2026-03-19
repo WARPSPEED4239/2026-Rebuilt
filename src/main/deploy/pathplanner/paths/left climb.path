@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 1.0856052631578947,
-        "y": 4.822657894736842
+        "x": 1.0449204545454542,
+        "y": 2.5095909090909094
       },
       "prevControl": {
-        "x": 1.777789473684211,
-        "y": 4.846526315789474
+        "x": 1.951920454545454,
+        "y": 1.9839431818181823
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "go to climb L end"
     }
   ],
   "rotationTargets": [],
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": -90.0
   },
   "reversed": false,
   "folder": null,

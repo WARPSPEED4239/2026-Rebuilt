@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 1.0378684210526317,
-        "y": 2.6506315789473693
+        "x": 1.0655340909090907,
+        "y": 4.934043859653101
       },
       "prevControl": {
-        "x": 2.414280701754386,
-        "y": 2.3880789473684216
+        "x": 2.441946371610845,
+        "y": 4.671491228074153
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "go to climb R end"
     }
   ],
   "rotationTargets": [],
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 90.0
   },
   "reversed": false,
   "folder": null,
